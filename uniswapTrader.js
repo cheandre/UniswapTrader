@@ -10,7 +10,7 @@ const INFURA_URL_MAINNET = process.env.INFURA_URL_MAINNET
 const WALLET_ADDRESS = process.env.WALLET_ADDRESS
 const WALLET_SECRET = process.env.WALLET_SECRET
 
-console.log(INFURA_URL_MAINNET + "infura")
+console.log(INFURA_URL_MAINNET + "infur")
 
 const provider =  new ethers.JsonRpcProvider(INFURA_URL_MAINNET); // Ropsten
 const poolAddress = "0xd82403772cB858219cfb58bFab46Ba7a31073474" //"0x4D7C363DED4B3b4e1F954494d2Bc3955e49699cC" 0x287b0e934ed0439e2a7b1d5f0fc25ea2c24b64f7// UNI/WETH
