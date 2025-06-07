@@ -17,8 +17,8 @@ exports.getPoolImmutables = async (poolContract) => {
     const slot = await Promise.all([ poolContract.slot0() ])
   
     const state = {
-      sqrtPriceX96: slot[0]
+      sqrtPriceX96: slot[0].sqrtPriceX96
     }
-    console.log(slot)
+    console.log("slot0"+ slot[0])
     return state
   }

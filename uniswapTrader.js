@@ -1,9 +1,10 @@
 const { ethers } = require('ethers')
 const { abi: IUniswapv3PoolABI } = require('@uniswap/v3-core/artifacts/contracts/interfaces/IUniswapV3Pool.sol/IUniswapV3Pool.json')
 const { abi: SwapRouterABI } = require('@uniswap/v3-periphery/artifacts/contracts/interfaces/ISwapRouter.sol/ISwapRouter.json')
+const { abi: FactoryABI } = require('@uniswap/v3-core/artifacts/contracts/UniswapV3Factory.sol/UniswapV3Factory.json')
 const { getPoolImmutables, getPoolState } = require('./helpers')
+const { findPool } = require('./poolUtils')
 const ERC20ABI = require('./abi.json')
-
 
 require('dotenv').config()
 const INFURA_URL_MAINNET = process.env.INFURA_URL_MAINNET
@@ -12,10 +13,9 @@ const WALLET_SECRET = process.env.WALLET_SECRET
 
 console.log(INFURA_URL_MAINNET + "infur")
 
-const provider =  new ethers.JsonRpcProvider(INFURA_URL_MAINNET); // Ropsten
-const poolAddress = "0xd82403772cB858219cfb58bFab46Ba7a31073474" //"0x4D7C363DED4B3b4e1F954494d2Bc3955e49699cC" 0x287b0e934ed0439e2a7b1d5f0fc25ea2c24b64f7// UNI/WETH
+const provider = new ethers.JsonRpcProvider(INFURA_URL_MAINNET)
 const swapRouterAddress = '0x2626664c2603336E57B271c5C0b26F421741e481'
-
+const factoryAddress = '0x33128a8fC17869897dcE68Ed026d694621f6FDfD' // Uniswap V3 Factory address
 
 const name0 = 'Wrapped Ether'
 const symbol0 = 'WETH'
@@ -31,10 +31,10 @@ const address1 = '0x9a26F5433671751C3276a065f57e5a02D2817973' //'0x1f9840a85d5af
 
 async function calculateMinimumOutput(amountIn, sqrtPriceX96, decimals0, decimals1) {
   // Convert sqrtPriceX96 to actual price
-  const price = (sqrtPriceX96 * sqrtPriceX96) / (2n ** 192n)
+  const price = (BigInt(sqrtPriceX96) * BigInt(sqrtPriceX96)) / (2n ** 192n)
   
   // Calculate expected output
-  const expectedOutput = (amountIn * price * BigInt(10 ** decimals1)) / BigInt(10 ** decimals0)
+  const expectedOutput = (BigInt(amountIn) * price * BigInt(10 ** decimals1)) / BigInt(10 ** decimals0)
   
   // Apply 7% slippage tolerance (93% of expected output)
   const slippageTolerance = 93n // 93%
@@ -44,6 +44,13 @@ async function calculateMinimumOutput(amountIn, sqrtPriceX96, decimals0, decimal
 }
 
 async function main() {
+  // Find the pool address
+  const { poolAddress, fee, metrics } = await findPool(address0, address1, provider)
+  console.log("\nPool metrics:")
+  console.log("Liquidity:", metrics.liquidity, "ETH")
+  console.log("Recent swaps:", metrics.swapCount)
+  console.log("Last swap block:", metrics.lastSwapTime)
+
   const poolContract = new ethers.Contract(
     poolAddress,
     IUniswapv3PoolABI,
@@ -53,8 +60,9 @@ async function main() {
   const immutables = await getPoolImmutables(poolContract)
   const state = await getPoolState(poolContract)
 
-  console.log("Token0: "+immutables.token0 )
-  console.log("Token1: "+immutables.token1 )
+  console.log("\nPool details:")
+  console.log("Token0: "+immutables.token0)
+  console.log("Token1: "+immutables.token1)
   console.log("Fee: "+immutables.fee)
   console.log("Price: "+ state.sqrtPriceX96)
 
@@ -68,8 +76,6 @@ async function main() {
   )
 
   const inputAmount = 0.001
-  //const inputAmount = 800
-  // .001 => 1 000 000 000 000 000
   const amountIn = ethers.parseUnits(
     inputAmount.toString(),
     decimals0
@@ -108,7 +114,6 @@ async function main() {
     tokenOut: immutables.token1,
     fee: immutables.fee,
     recipient: WALLET_ADDRESS,
-    //deadline: Math.floor(Date.now() / 1000) + (60 * 100),
     amountIn: amountIn,
     amountOutMinimum: minimumOutput,
     sqrtPriceLimitX96: 0
@@ -118,12 +123,7 @@ async function main() {
   const transaction = swapRouterContract.connect(connectedWallet).exactInputSingle(
     params,
     {
-     // value: amountIn,
       gasLimit: 10000000
-      //gasLimit: 10000000,
-      //gasLimit: ethers.BigNumber.from(500_000), // Safer, realistic estimate
-      //maxFeePerGas: 25000000000, // or higher depending on network
-      //maxPriorityFeePerGas: 2000000000
     }
   ).then(transaction => {
     console.log(transaction)
