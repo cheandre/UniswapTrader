@@ -70,7 +70,7 @@ async function calculateMinimumOutput(amountIn, poolContract, decimalsIn, decima
   }
 }
 
-async function swapTokens(tokenInSymbol, tokenOutSymbol) {
+async function swapTokens(tokenInSymbol, tokenOutSymbol, amount) {
   // Get token information from the configuration
   const tokenIn = tokens[tokenInSymbol]
   const tokenOut = tokens[tokenOutSymbol]
@@ -110,11 +110,9 @@ async function swapTokens(tokenInSymbol, tokenOutSymbol) {
     provider
   )
 
-  const inputAmount = 0.001
-  const amountIn = ethers.parseUnits(
-    inputAmount.toString(),
-    tokenIn.decimals
-  )
+  console.log(`Amount: ${amount}`)
+  // Convert wei amount to regular number for price calculation
+  const inputAmount = Number(ethers.formatUnits(amount, tokenIn.decimals))
 
   // Determine the correct token ordering for the swap
   const isToken0Input = immutables.token0.toLowerCase() === tokenIn.address.toLowerCase()
@@ -128,8 +126,6 @@ async function swapTokens(tokenInSymbol, tokenOutSymbol) {
     isToken0Input
   )
 
-  const approvalAmount = (amountIn * BigInt(100000)).toString()
-  
   const tokenContract0 = new ethers.Contract(
     tokenIn.address,
     ERC20ABI,
@@ -138,7 +134,7 @@ async function swapTokens(tokenInSymbol, tokenOutSymbol) {
   
   const approvalResponse = await tokenContract0.connect(connectedWallet).approve(
     swapRouterAddress,
-    approvalAmount
+    amount // amount is already in wei
   )
   console.log(approvalResponse)
  
@@ -147,7 +143,7 @@ async function swapTokens(tokenInSymbol, tokenOutSymbol) {
     tokenOut: isToken0Input ? immutables.token1 : immutables.token0,
     fee: immutables.fee,
     recipient: WALLET_ADDRESS,
-    amountIn: amountIn,
+    amountIn: amount, // amount is already in wei
     amountOutMinimum: minimumOutput,
     sqrtPriceLimitX96: 0
   }
@@ -155,8 +151,8 @@ async function swapTokens(tokenInSymbol, tokenOutSymbol) {
   console.log(`Swapping ${tokenInSymbol} to ${tokenOutSymbol}`)
   console.log(`TokenIn address: ${params.tokenIn}`)
   console.log(`TokenOut address: ${params.tokenOut}`)
-  console.log(`Amount in: ${amountIn.toString()}`)
-  console.log(`Minimum output: ${minimumOutput.toString()}`)
+  console.log(`Amount in: ${ethers.formatUnits(amount, tokenIn.decimals)} ${tokenInSymbol}`)
+  console.log(`Minimum output: ${ethers.formatUnits(minimumOutput, tokenOut.decimals)} ${tokenOutSymbol}`)
 
   return swapRouterContract.connect(connectedWallet).exactInputSingle(
     params,
@@ -221,7 +217,7 @@ async function executeTradingStrategy(walletAddress) {
         console.log('\nSwapping non-best tokens to WETH...')
         for (const token of tokensToSwapToWeth) {
           console.log(`Swapping ${token.symbol} to WETH (not the best token)...`)
-          const swapTx = await swapTokens(token.symbol, 'WETH')
+          const swapTx = await swapTokens(token.symbol, 'WETH', token.rawBalance)
           console.log(`Waiting for ${token.symbol} to WETH swap to be confirmed...`)
           await swapTx.wait() // Wait for transaction to be confirmed
           console.log(`${token.symbol} to WETH swap confirmed!`)
@@ -229,7 +225,7 @@ async function executeTradingStrategy(walletAddress) {
 
         // After all WETH swaps are confirmed, swap WETH to best token
         console.log(`\nAll WETH swaps completed. Now swapping WETH to ${bestToken.symbol}...`)
-        const finalSwapTx = await swapTokens('WETH', bestToken.symbol)
+        const finalSwapTx = await swapTokens('WETH', bestToken.symbol, wethBalance.rawBalance)
         console.log('Waiting for final swap to be confirmed...')
         await finalSwapTx.wait()
         console.log(`Successfully swapped WETH to ${bestToken.symbol}!`)
@@ -245,7 +241,7 @@ async function executeTradingStrategy(walletAddress) {
       console.log('\nSwapping all tokens to WETH...')
       for (const token of tokensToSwapToWeth) {
         console.log(`Swapping ${token.symbol} to WETH (WETH not positive)...`)
-        const swapTx = await swapTokens(token.symbol, 'WETH')
+        const swapTx = await swapTokens(token.symbol, 'WETH', token.rawBalance)
         console.log(`Waiting for ${token.symbol} to WETH swap to be confirmed...`)
         await swapTx.wait() // Wait for transaction to be confirmed
         console.log(`${token.symbol} to WETH swap confirmed!`)
