@@ -27,27 +27,28 @@ async function withRateLimit(fn, ...args) {
   return fn(...args)
 }
 
-async function calculateMinimumOutput(amountIn, sqrtPriceX96, decimalsIn, decimalsOut, isToken0Input) {
+async function calculateMinimumOutput(amountIn, poolContract, decimalsIn, decimalsOut, isToken0Input) {
   try {
-    // Get the current price from the pool
-    // sqrtPriceX96 is in Q96.96 format
-    const sqrtPrice = Number(sqrtPriceX96) / (2 ** 96)
-    const price = sqrtPrice * sqrtPrice
+    // Get the current price from the pool's slot0
+    const slot0 = await poolContract.slot0()
+    const currentPrice = Number(slot0.sqrtPriceX96) / (2 ** 96)
+    const price = currentPrice * currentPrice
 
-    // Calculate expected output based on the price
+    console.log(`Pool price calculation:`)
+    console.log(`Current sqrt price: ${currentPrice}`)
+    console.log(`Current price: ${price}`)
+
+    // Calculate expected output
     let expectedOutput
     if (isToken0Input) {
       // If token0 is input, multiply by price
-      expectedOutput = Number(amountIn) * price
+      expectedOutput = amountIn * price
     } else {
       // If token1 is input, divide by price
-      expectedOutput = Number(amountIn) / price
+      expectedOutput = amountIn / price
     }
 
-    console.log(`Price calculation:`)
-    console.log(`Sqrt price: ${sqrtPrice}`)
-    console.log(`Price: ${price}`)
-    console.log(`Amount in: ${amountIn.toString()}`)
+    console.log(`Amount in: ${amountIn}`)
     console.log(`Expected output: ${expectedOutput}`)
 
     // Apply 7% slippage tolerance (93% of expected output)
@@ -56,17 +57,12 @@ async function calculateMinimumOutput(amountIn, sqrtPriceX96, decimalsIn, decima
 
     console.log(`Minimum output after 7% slippage: ${minimumOutput}`)
 
-    // Convert to wei with proper decimal handling
-    const minimumOutputWei = BigInt(Math.floor(minimumOutput * (10 ** decimalsOut)))
-    console.log(`Minimum output in wei: ${minimumOutputWei.toString()}`)
+    // Convert to regular decimal string with fixed precision
+    const minimumOutputString = minimumOutput.toFixed(decimalsOut)
+    console.log(`Minimum output as string: ${minimumOutputString}`)
 
-    // Ensure minimumOutput is not zero
-    if (minimumOutputWei === 0n) {
-      console.log('Warning: Minimum output is zero, using 1 as minimum')
-      return 1n
-    }
-
-    return minimumOutputWei
+    // Convert to wei
+    return ethers.parseUnits(minimumOutputString, decimalsOut)
   } catch (error) {
     console.error('Error in calculateMinimumOutput:', error)
     console.log('Falling back to zero minimum output')
@@ -96,7 +92,6 @@ async function swapTokens(tokenInSymbol, tokenOutSymbol) {
     provider
   )
 
-  // Get pool immutables and state with rate limiting
   const immutables = await withRateLimit(getPoolImmutables, poolContract)
   const state = await withRateLimit(getPoolState, poolContract)
 
@@ -124,10 +119,10 @@ async function swapTokens(tokenInSymbol, tokenOutSymbol) {
   // Determine the correct token ordering for the swap
   const isToken0Input = immutables.token0.toLowerCase() === tokenIn.address.toLowerCase()
 
-  // Calculate minimum output with 7% slippage
+  // Calculate minimum output with 7% slippage using inputAmount instead of amountIn
   const minimumOutput = await calculateMinimumOutput(
-    amountIn,
-    state.sqrtPriceX96,
+    inputAmount,
+    poolContract,
     tokenIn.decimals,
     tokenOut.decimals,
     isToken0Input
@@ -153,7 +148,7 @@ async function swapTokens(tokenInSymbol, tokenOutSymbol) {
     fee: immutables.fee,
     recipient: WALLET_ADDRESS,
     amountIn: amountIn,
-    amountOutMinimum: 0,
+    amountOutMinimum: minimumOutput,
     sqrtPriceLimitX96: 0
   }
 
