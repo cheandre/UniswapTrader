@@ -5,6 +5,8 @@ const { abi: FactoryABI } = require('@uniswap/v3-core/artifacts/contracts/Uniswa
 const { getPoolImmutables, getPoolState } = require('./helpers')
 const { findPool } = require('./poolUtils')
 const ERC20ABI = require('./abi.json')
+const tokens = require('./tokens.json')
+const { getPriceChanges, getAllPriceChanges } = require('./priceMonitor')
 
 require('dotenv').config()
 const INFURA_URL_MAINNET = process.env.INFURA_URL_MAINNET
@@ -16,18 +18,6 @@ console.log(INFURA_URL_MAINNET + "infur")
 const provider = new ethers.JsonRpcProvider(INFURA_URL_MAINNET)
 const swapRouterAddress = '0x2626664c2603336E57B271c5C0b26F421741e481'
 const factoryAddress = '0x33128a8fC17869897dcE68Ed026d694621f6FDfD' // Uniswap V3 Factory address
-
-const name0 = 'Wrapped Ether'
-const symbol0 = 'WETH'
-const decimals0 = 18
-const address0 = '0x4200000000000000000000000000000000000006'
-
-const name1 = 'KEYCAT Token'
-const symbol1 = 'KEYCAT'
-const decimals1 = 18
-const address1 = '0x9a26F5433671751C3276a065f57e5a02D2817973' //'0x1f9840a85d5af5bf1d1762f925bdaddc4201f984'
-
-
 
 async function calculateMinimumOutput(amountIn, sqrtPriceX96, decimals0, decimals1) {
   // Convert sqrtPriceX96 to actual price
@@ -43,9 +33,17 @@ async function calculateMinimumOutput(amountIn, sqrtPriceX96, decimals0, decimal
   return minimumOutput
 }
 
-async function main() {
+async function swapTokens(tokenInSymbol, tokenOutSymbol) {
+  // Get token information from the configuration
+  const tokenIn = tokens[tokenInSymbol]
+  const tokenOut = tokens[tokenOutSymbol]
+
+  if (!tokenIn || !tokenOut) {
+    throw new Error(`Token configuration not found for ${tokenInSymbol} or ${tokenOutSymbol}`)
+  }
+
   // Find the pool address
-  const { poolAddress, fee, metrics } = await findPool(address0, address1, provider)
+  const { poolAddress, fee, metrics } = await findPool(tokenIn.address, tokenOut.address, provider)
   console.log("\nPool metrics:")
   console.log("Liquidity:", metrics.liquidity, "ETH")
   console.log("Recent swaps:", metrics.swapCount)
@@ -78,30 +76,30 @@ async function main() {
   const inputAmount = 0.001
   const amountIn = ethers.parseUnits(
     inputAmount.toString(),
-    decimals0
+    tokenIn.decimals
   )
 
   // Calculate minimum output with 7% slippage
   const minimumOutput = await calculateMinimumOutput(
     amountIn,
     state.sqrtPriceX96,
-    decimals0,
-    decimals1
+    tokenIn.decimals,
+    tokenOut.decimals
   )
 
-  console.log(amountIn)
+  
 
   const approvalAmount = (amountIn * BigInt(100000)).toString()
   
-  console.log(approvalAmount)
+  
   
   const tokenContract0 = new ethers.Contract(
-    address0,
+    tokenIn.address,
     ERC20ABI,
     provider
   )
   
-  console.log('  TESTE  ')
+  
   
   const approvalResponse = await tokenContract0.connect(connectedWallet).approve(
     swapRouterAddress,
@@ -119,7 +117,7 @@ async function main() {
     sqrtPriceLimitX96: 0
   }
 
-  console.log('  TESTE1  ')
+  
   const transaction = swapRouterContract.connect(connectedWallet).exactInputSingle(
     params,
     {
@@ -127,7 +125,59 @@ async function main() {
     }
   ).then(transaction => {
     console.log(transaction)
-  }) 
+  })
+}
+
+async function getTokenBalance(address) {
+  const balances = []
+  
+  // Loop through all tokens in the configuration
+  for (const [symbol, token] of Object.entries(tokens)) {
+    const tokenContract = new ethers.Contract(
+      token.address,
+      ERC20ABI,
+      provider
+    )
+
+    const balance = await tokenContract.balanceOf(address)
+    const formattedBalance = ethers.formatUnits(balance, token.decimals)
+    
+    console.log(`\nBalance for ${symbol}:`)
+    console.log(`Address: ${address}`)
+    console.log(`Raw balance: ${balance}`)
+    console.log(`Formatted balance: ${formattedBalance} ${symbol}`)
+    
+    balances.push({
+      symbol,
+      rawBalance: balance,
+      formattedBalance: formattedBalance,
+      name: token.name,
+      address: token.address
+    })
+  }
+  
+  return balances
+}
+
+async function main() {
+  try {
+    // Get balances for all tokens
+    const balances = await getTokenBalance(WALLET_ADDRESS)
+    console.log('\nAll token balances:', balances)
+    
+    // Get price changes for all tokens
+    const allPriceChanges = await getAllPriceChanges()
+    console.log('\nAll token price changes:', JSON.stringify(allPriceChanges, null, 2))
+    
+    // Get price changes for a specific token
+    const wethChanges = await getPriceChanges('WETH')
+    console.log('\nWETH price changes:', JSON.stringify(wethChanges, null, 2))
+
+    // Perform the swap
+    //await swapTokens('WETH', 'KEYCAT')
+  } catch (error) {
+    console.error('Error in main:', error.message)
+  }
 }
 
 main()

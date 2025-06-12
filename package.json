@@ -2,7 +2,10 @@
   "dependencies": {
     "@uniswap/sdk-core": "^7.7.2",
     "@uniswap/v3-sdk": "^3.25.2",
+    "axios": "^1.9.0",
+    "cheerio": "^1.1.0",
     "dotenv": "^16.4.7",
-    "ethers": "^6.13.5"
+    "ethers": "^6.13.5",
+    "puppeteer": "^24.10.0"
   }
 }
