@@ -10,7 +10,7 @@ console.log(INFURA_URL_MAINNET + "infur")
 
 async function main() {
   try {
-    console.log('Starting trading bot...')
+    console.log('Starting trading bot at ' + new Date().toISOString())
     console.log('Will execute trading strategy every 15 minutes')
     
     // Run immediately on startup
@@ -19,7 +19,7 @@ async function main() {
     // Then run every 15 minutes
     setInterval(async () => {
       try {
-        console.log('\nExecuting trading strategy...')
+        console.log('\nExecuting trading strategy at ' + new Date().toISOString())
         await executeTradingStrategy(WALLET_ADDRESS)
       } catch (error) {
         console.error('Error in interval execution:', error.message)

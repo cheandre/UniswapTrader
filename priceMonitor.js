@@ -63,10 +63,27 @@ async function getPriceChanges(tokenSymbol) {
       return changes;
     });
 
-    // Ensure we got all 5 timeframes
-    if (priceChanges.length !== 5) {
-      throw new Error(`Expected 5 price changes, got ${priceChanges.length}. Found elements: ${JSON.stringify(priceChanges)}`);
+    // If we only got 4 intervals, add 5m with 0 and shift the others
+    if (priceChanges.length === 4) {
+      // Update the timeframes of existing intervals
+      const timeframes = ['5m', '1h', '6h', '24h', '7d'];
+      priceChanges.forEach((change, index) => {
+        change.timeframe = timeframes[index + 1]; // Skip 5m as we'll add it
+      });
+
+      // Add 5m interval with 0
+      priceChanges.unshift({
+        timeframe: '5m',
+        percentage: 0,
+        isPositive: true
+      });
     }
+
+    // Log all intervals for the token
+    console.log(`\nPrice changes for ${tokenSymbol}:`);
+    priceChanges.forEach(change => {
+      console.log(`${change.timeframe}: ${change.percentage}% (${change.isPositive ? 'up' : 'down'})`);
+    });
 
     return {
       symbol: tokenSymbol,
@@ -112,8 +129,6 @@ async function getAllPriceChanges() {
   
   return results;
 }
-
-
 
 module.exports = {
   getPriceChanges,
