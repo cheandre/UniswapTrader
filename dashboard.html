@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Trading Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 900px; margin: 0 auto; padding: 24px; }
+    h1, h2 { margin-top: 32px; }
+    .chart-container { margin-bottom: 48px; }
+    .file-input { margin-bottom: 24px; }
+    .date-filter { margin-bottom: 24px; }
+    .error { color: red; margin-bottom: 24px; }
+  </style>
+</head>
+<body>
+  <h1>Trading Dashboard</h1>
+  <div id="error" class="error" style="display:none;"></div>
+  <div class="file-input">
+    <label>Select trades.json: <input type="file" id="fileInput" accept="application/json"></label>
+  </div>
+  <div class="date-filter" style="display:none;">
+    <label>Date Filter: <select id="dateFilter"></select></label>
+  </div>
+  <div class="chart-container">
+    <h2>Profit/Loss % per Transaction (by Day)</h2>
+    <canvas id="graph1"></canvas>
+  </div>
+  <div class="chart-container">
+    <h2>Daily Profit/Loss % (Month View)</h2>
+    <canvas id="graph2"></canvas>
+  </div>
+  <div class="chart-container">
+    <h2>All-time Profit/Loss % per Token</h2>
+    <canvas id="graph3"></canvas>
+  </div>
+  <script>
+    let allTransactions = [];
+    let filteredTransactions = [];
+    let graph1, graph2, graph3;
+
+    function parseTransactions(trades) {
+      const transactions = [];
+      for (let i = 0; i < trades.length - 1; i++) {
+        const t1 = trades[i];
+        const t2 = trades[i + 1];
+        if (
+          t1.tokenIn === 'WETH' && t2.tokenOut === 'WETH' &&
+          t1.tokenOut === t2.tokenIn &&
+          t1.tokenOut !== 'WETH'
+        ) {
+          const wethIn = parseFloat(t1.amountIn);
+          
+          // Determine which amount field contains WETH in the sell transaction
+          let wethOut = null;
+          if (t2.actualAmountOut) {
+            // Check if WETH is amount0 or amount1 in the sell transaction
+            // If amount0 is negative and amount1 is positive, WETH is amount0
+            // If amount0 is positive and amount1 is negative, WETH is amount1
+            const amount0Wei = parseFloat(t2.actualAmountOut.amount0);
+            const amount1Wei = parseFloat(t2.actualAmountOut.amount1);
+            
+            if (amount0Wei < 0 && amount1Wei > 0) {
+              // WETH is amount0 (first token in pool)
+              wethOut = Math.abs(amount0Wei) / Math.pow(10, 18);
+            } else if (amount0Wei > 0 && amount1Wei < 0) {
+              // WETH is amount1 (second token in pool)
+              wethOut = Math.abs(amount1Wei) / Math.pow(10, 18);
+            } else {
+              // fallback to amountOutMinimum
+              wethOut = parseFloat(t2.amountOutMinimum);
+            }
+          } else {
+            // fallback to amountOutMinimum
+            wethOut = parseFloat(t2.amountOutMinimum);
+          }
+          
+          // Debug logging with more details
+          console.log(`Transaction ${t1.tokenOut}:`);
+          console.log(`  t1 (buy): ${t1.tokenIn} -> ${t1.tokenOut}, amountIn: ${t1.amountIn}, amount0: ${t1.actualAmountOut ? t1.actualAmountOut.amount0 : 'N/A'}, amount1: ${t1.actualAmountOut ? t1.actualAmountOut.amount1 : 'N/A'}`);
+          console.log(`  t2 (sell): ${t2.tokenIn} -> ${t2.tokenOut}, amountIn: ${t2.amountIn}, amount0: ${t2.actualAmountOut ? t2.actualAmountOut.amount0 : 'N/A'}, amount1: ${t2.actualAmountOut ? t2.actualAmountOut.amount1 : 'N/A'}`);
+          console.log(`  WETH in: ${wethIn}`);
+          console.log(`  WETH out: ${wethOut}`);
+          console.log(`  t2 tokenIn: ${t2.tokenIn}, t2 tokenOut: ${t2.tokenOut}`);
+          console.log(`  Profit/Loss: ${((wethOut - wethIn) / wethIn) * 100}%`);
+          
+          const profitLoss = ((wethOut - wethIn) / wethIn) * 100;
+          transactions.push({
+            date: t1.timestamp,
+            token: t1.tokenOut,
+            profitLoss,
+            t1,
+            t2
+          });
+          i++; // skip next trade (already paired)
+        }
+      }
+      return transactions;
+    }
+
+    function groupByDay(transactions) {
+      const grouped = {};
+      transactions.forEach(tx => {
+        const day = tx.date.slice(0, 10);
+        if (!grouped[day]) grouped[day] = [];
+        grouped[day].push(tx);
+      });
+      return grouped;
+    }
+
+    function groupByToken(transactions) {
+      const grouped = {};
+      transactions.forEach(tx => {
+        if (!grouped[tx.token]) grouped[tx.token] = [];
+        grouped[tx.token].push(tx);
+      });
+      return grouped;
+    }
+
+    function updateDateFilterUI(transactions) {
+      const dateFilterDiv = document.querySelector('.date-filter');
+      const dateFilter = document.getElementById('dateFilter');
+      const uniqueDates = Array.from(new Set(transactions.map(tx => tx.date.slice(0, 10))));
+      dateFilter.innerHTML = '<option value="">All</option>' + uniqueDates.map(date => `<option value="${date}">${date}</option>`).join('');
+      dateFilterDiv.style.display = uniqueDates.length > 0 ? '' : 'none';
+    }
+
+    function renderGraph1(transactions) {
+      const ctx = document.getElementById('graph1').getContext('2d');
+      const labels = transactions.map(tx => tx.date.slice(11, 19));
+      const data = transactions.map(tx => tx.profitLoss);
+      if (graph1) graph1.destroy();
+      graph1 = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels,
+          datasets: [{
+            label: 'Profit/Loss %',
+            data,
+            borderColor: 'rgba(75,192,192,1)',
+            backgroundColor: 'rgba(75,192,192,0.2)',
+            fill: true,
+            tension: 0.2
+          }]
+        }
+      });
+    }
+
+    function renderGraph2(transactions) {
+      const ctx = document.getElementById('graph2').getContext('2d');
+      const grouped = groupByDay(transactions);
+      const labels = Object.keys(grouped).sort();
+      const data = labels.map(day => grouped[day].reduce((acc, tx) => acc + tx.profitLoss, 0));
+      if (graph2) graph2.destroy();
+      graph2 = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels,
+          datasets: [{
+            label: 'Daily Profit/Loss %',
+            data,
+            backgroundColor: 'rgba(153,102,255,0.5)',
+            borderColor: 'rgba(153,102,255,1)',
+            borderWidth: 1
+          }]
+        }
+      });
+    }
+
+    function renderGraph3(transactions) {
+      const ctx = document.getElementById('graph3').getContext('2d');
+      const grouped = groupByToken(transactions);
+      const labels = Object.keys(grouped);
+      const data = labels.map(token => grouped[token].reduce((acc, tx) => acc + tx.profitLoss, 0));
+      if (graph3) graph3.destroy();
+      graph3 = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels,
+          datasets: [{
+            label: 'All-time Profit/Loss %',
+            data,
+            backgroundColor: 'rgba(255,159,64,0.5)',
+            borderColor: 'rgba(255,159,64,1)',
+            borderWidth: 1
+          }]
+        }
+      });
+    }
+
+    function updateDashboard() {
+      renderGraph1(filteredTransactions);
+      renderGraph2(allTransactions);
+      renderGraph3(allTransactions);
+      updateDateFilterUI(allTransactions);
+    }
+
+    function showError(msg) {
+      const errorDiv = document.getElementById('error');
+      errorDiv.textContent = msg;
+      errorDiv.style.display = '';
+    }
+
+    document.getElementById('fileInput').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        try {
+          const trades = JSON.parse(evt.target.result);
+          allTransactions = parseTransactions(trades);
+          filteredTransactions = allTransactions;
+          updateDashboard();
+        } catch (err) {
+          showError('Invalid JSON file.');
+        }
+      };
+      reader.readAsText(file);
+    });
+
+    document.getElementById('dateFilter').addEventListener('change', function(e) {
+      const date = e.target.value;
+      if (!date) {
+        filteredTransactions = allTransactions;
+      } else {
+        filteredTransactions = allTransactions.filter(tx => tx.date.slice(0, 10) === date);
+      }
+      renderGraph1(filteredTransactions);
+    });
+  </script>
+</body>
+</html> 

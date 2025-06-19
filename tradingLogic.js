@@ -182,15 +182,40 @@ async function swapTokens(tokenInSymbol, tokenOutSymbol, amount, priceChanges = 
     }
   }
 
-  // Save trade information
-  saveTrade(tradeInfo)
-
-  return swapRouterContract.connect(connectedWallet).exactInputSingle(
+  // Execute the swap
+  const swapTx = await swapRouterContract.connect(connectedWallet).exactInputSingle(
     params,
     {
       gasLimit: 10000000
     }
   )
+  const receipt = await swapTx.wait();
+
+  // Extract actual output amount from Swap event
+  let actualAmountOut = null;
+  for (const log of receipt.logs) {
+    try {
+      const parsed = poolContract.interface.parseLog(log);
+      if (parsed.name === 'Swap') {
+        // For exactInputSingle:
+        // - WETH -> TOKEN: amount0 < 0 (WETH spent), amount1 > 0 (TOKEN received)
+        // - TOKEN -> WETH: amount0 > 0 (WETH received), amount1 < 0 (TOKEN spent)
+        actualAmountOut = {
+          amount0: parsed.args.amount0.toString(),
+          amount1: parsed.args.amount1.toString()
+        };
+        break;
+      }
+    } catch (e) {
+      // Not a Swap event, skip
+    }
+  }
+  tradeInfo.actualAmountOut = actualAmountOut;
+
+  // Save trade information
+  saveTrade(tradeInfo)
+
+  return swapTx;
 }
 
 async function executeTradingStrategy(walletAddress) {
@@ -297,7 +322,7 @@ async function executeTradingStrategy(walletAddress) {
             return isDownOn1h || isDownOn6h || has2PercentDifference;
           });
 
-          console.log(`\nTokens to swap to WETH (down on 1h/6h or 2%+ difference from best):`);
+          console.log(`\nTokens to swap to WETH (down on 1h/6h or 4%+ difference from best):`);
           tokensToSwapToWeth.forEach(token => {
             const tokenPriceData = allPriceChanges.find(t => t.symbol === token.symbol);
             const oneHourChange = tokenPriceData.priceChanges.find(change => change.timeframe === '1h');
