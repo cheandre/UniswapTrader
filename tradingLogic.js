@@ -252,26 +252,67 @@ async function executeTradingStrategy(walletAddress) {
         for (const token of otherTokensPriceChanges) {
           const oneHourChange = token.priceChanges.find(change => change.timeframe === '1h')
           const sixHourChange = token.priceChanges.find(change => change.timeframe === '6h')
-
-          if (oneHourChange.isPositive && oneHourChange.percentage > highestChange) {
-            highestChange = oneHourChange.percentage
-            bestToken = token
-          }
-          if (sixHourChange.isPositive && sixHourChange.percentage > highestChange) {
-            highestChange = sixHourChange.percentage
-            bestToken = token
+          //if >30 skip
+          if (oneHourChange.percentage < 30 && sixHourChange.percentage < 30 && oneHourChange.isPositive && sixHourChange.isPositive)
+          { 
+            if (oneHourChange.isPositive && oneHourChange.percentage > highestChange) {
+              highestChange = oneHourChange.percentage
+              bestToken = token
+            }
+            if (sixHourChange.isPositive && sixHourChange.percentage > highestChange) {
+              highestChange = sixHourChange.percentage
+              bestToken = token
+            }
           }
         }
 
         console.log(`Best token: ${bestToken.symbol} with ${highestChange}% change`)
-        // If WETH is positive, only swap tokens that are not the best token
+        
+        // If WETH is positive, only swap tokens that meet specific criteria
         if (bestToken) {
-          const tokensToSwapToWeth = otherTokenBalances.filter(balance => 
-            parseFloat(balance.formattedBalance) > 1 && balance.symbol !== bestToken.symbol
-          )
+          const tokensToSwapToWeth = otherTokenBalances.filter(balance => {
+            if (parseFloat(balance.formattedBalance) <= 1) return false;
+            if (balance.symbol === bestToken.symbol) return false;
+            
+            const tokenPriceData = allPriceChanges.find(t => t.symbol === balance.symbol);
+            if (!tokenPriceData) return false;
+            
+            const oneHourChange = tokenPriceData.priceChanges.find(change => change.timeframe === '1h');
+            const sixHourChange = tokenPriceData.priceChanges.find(change => change.timeframe === '6h');
+            
+            // Check if token is down on 1h or 6h
+            const isDownOn1h = !oneHourChange.isPositive;
+            const isDownOn6h = !sixHourChange.isPositive;
+            
+            // Check if token has at least 2% growing difference compared to best token
+            const bestToken1h = bestToken.priceChanges.find(change => change.timeframe === '1h');
+            const bestToken6h = bestToken.priceChanges.find(change => change.timeframe === '6h');
+            
+            const growingDifference1h = bestToken1h.percentage - oneHourChange.percentage;
+            const growingDifference6h = bestToken6h.percentage - sixHourChange.percentage;
+            
+            const has2PercentDifference = growingDifference1h >= 4 || growingDifference6h >= 4;
+            
+            // Swap if token is down on 1h or 6h, OR has at least 4% growing difference
+            return isDownOn1h || isDownOn6h || has2PercentDifference;
+          });
 
-          // First, swap all non-best tokens to WETH and wait for each transaction
-          console.log('\nSwapping non-best tokens to WETH...')
+          console.log(`\nTokens to swap to WETH (down on 1h/6h or 2%+ difference from best):`);
+          tokensToSwapToWeth.forEach(token => {
+            const tokenPriceData = allPriceChanges.find(t => t.symbol === token.symbol);
+            const oneHourChange = tokenPriceData.priceChanges.find(change => change.timeframe === '1h');
+            const sixHourChange = tokenPriceData.priceChanges.find(change => change.timeframe === '6h');
+            const bestToken1h = bestToken.priceChanges.find(change => change.timeframe === '1h');
+            const bestToken6h = bestToken.priceChanges.find(change => change.timeframe === '6h');
+            
+            const growingDifference1h = bestToken1h.percentage - oneHourChange.percentage;
+            const growingDifference6h = bestToken6h.percentage - sixHourChange.percentage;
+            
+            console.log(`${token.symbol}: 1h(${oneHourChange.percentage}%), 6h(${sixHourChange.percentage}%), diff from best: 1h(${growingDifference1h.toFixed(2)}%), 6h(${growingDifference6h.toFixed(2)}%)`);
+          });
+
+          // First, swap qualifying tokens to WETH and wait for each transaction
+          console.log('\nSwapping qualifying tokens to WETH...')
           for (const token of tokensToSwapToWeth) {
             const tokenPriceChanges = allPriceChanges.find(t => t.symbol === token.symbol)
             const priceChanges = {
@@ -284,7 +325,7 @@ async function executeTradingStrategy(walletAddress) {
                 '6h': tokenPriceChanges.priceChanges.find(change => change.timeframe === '6h')
               }
             }
-            console.log(`Swapping ${token.symbol} to WETH (not the best token)...`)
+            console.log(`Swapping ${token.symbol} to WETH (meets swap criteria)...`)
             const swapTx = await swapTokens(token.symbol, 'WETH', token.rawBalance, priceChanges)
             console.log(`Waiting for ${token.symbol} to WETH swap to be confirmed...`)
             await swapTx.wait() // Wait for transaction to be confirmed
@@ -321,10 +362,10 @@ async function executeTradingStrategy(walletAddress) {
           console.log('\nNo tokens with positive price change found. Keeping WETH.')
         }
       } else {
-        // If WETH is not positive, check if it's down more than 0.75% in both timeframes
+        // If WETH is not positive, check if it's down more than 0.85% in both timeframes
         const isWethDownSignificantly = 
-          !weth1hChange.isPositive && weth1hChange.percentage < -0.75 &&
-          !weth6hChange.isPositive && weth6hChange.percentage < -0.75;
+          !weth1hChange.isPositive && weth1hChange.percentage < -0.85 &&
+          !weth6hChange.isPositive && weth6hChange.percentage < -0.85;
 
         // Find tokens that are down more than 3% in 1h
         const tokensDownSignificantly = otherTokenBalances.filter(balance => {
