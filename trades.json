@@ -218,5 +218,137 @@
       "amount1": "7274310946301528"
     },
     "timestamp": "2025-06-19T23:01:35.603Z"
+  },
+  {
+    "tokenIn": "NATIVE",
+    "tokenOut": "WETH",
+    "amountIn": "296967.282554220662446336",
+    "amountOutMinimum": "0.005971841535384004",
+    "poolAddress": "0x4cd15f2BC9533Bf6faC4ae33C649f138CB601935",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "11650322420455991635212139",
+      "actualPrice": 2.1623038501257995e-8,
+      "token0IsInput": true
+    },
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 1.12,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 0.76,
+          "isPositive": true
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 0.92,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": -7.83,
+          "isPositive": false
+        }
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "296967282554220662446336",
+      "amount1": "-6356875304610771"
+    },
+    "timestamp": "2025-06-20T08:00:43.011Z"
+  },
+  {
+    "tokenIn": "WETH",
+    "tokenOut": "CLANKER",
+    "amountIn": "0.006356875304610771",
+    "amountOutMinimum": "0.479209943422331475",
+    "poolAddress": "0xC1a6FBeDAe68E1472DbB91FE29B51F7a0Bd44F97",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "8799945729297314996086483346",
+      "actualPrice": 81.05861517883285,
+      "token0IsInput": false
+    },
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 1.12,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 0.76,
+          "isPositive": true
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 3.54,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 7.31,
+          "isPositive": true
+        }
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "-510115349040426401",
+      "amount1": "6356875304610771"
+    },
+    "timestamp": "2025-06-20T08:01:03.538Z"
+  },
+  {
+    "tokenIn": "CLANKER",
+    "tokenOut": "WETH",
+    "amountIn": "0.510115349040426401",
+    "amountOutMinimum": "0.005998999482715468",
+    "poolAddress": "0x75fb62AA7d072a6A96692B207278A760E5df42CC",
+    "fee": 3000,
+    "price": {
+      "sqrtPriceX96": "8908838658318921971634935202",
+      "actualPrice": 0.012643957288843991,
+      "token0IsInput": true
+    },
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": -1.41,
+          "isPositive": false
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": -2.25,
+          "isPositive": false
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": -1.93,
+          "isPositive": false
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": -0.37,
+          "isPositive": false
+        }
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "510115349040426401",
+      "amount1": "-6431091735272208"
+    },
+    "timestamp": "2025-06-20T14:52:53.794Z"
   }
 ]

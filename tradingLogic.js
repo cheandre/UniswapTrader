@@ -408,7 +408,7 @@ async function executeTradingStrategy(walletAddress) {
           if (isWethDownSignificantly) {
             // Add all tokens with balance > 1
             tokensToSwapToWeth = otherTokenBalances.filter(balance => 
-              parseFloat(balance.formattedBalance) > 1
+              parseFloat(balance.formattedBalance) > 0.1
             );
             console.log('\nWETH is down significantly (>0.75%) in both timeframes. Swapping all tokens to WETH...');
           }
