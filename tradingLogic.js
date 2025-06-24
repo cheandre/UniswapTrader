@@ -218,267 +218,105 @@ async function swapTokens(tokenInSymbol, tokenOutSymbol, amount, priceChanges = 
   return swapTx;
 }
 
-async function executeTradingStrategy(walletAddress) {
-  const maxRetries = 3;
-  let retryCount = 0;
 
-  while (retryCount < maxRetries) {
-    try {
-      // Get WETH price changes with rate limiting
-      const wethPriceChanges = await withRateLimit(getPriceChanges, 'WETH')
-      if (!wethPriceChanges || !wethPriceChanges.priceChanges) {
-        throw new Error('Failed to get WETH price changes')
-      }
-      const weth1hChange = wethPriceChanges.priceChanges.find(change => change.timeframe === '1h')
-      const weth6hChange = wethPriceChanges.priceChanges.find(change => change.timeframe === '6h')
-      if (!weth1hChange || !weth6hChange) {
-        throw new Error('Missing WETH price change data')
-      }
+async function executeTradingStrategy2(walletAddress) {
+  let swapped = false;
+  try {
+    // 1. Get balances and price changes
+    const allBalances = await withRateLimit(getTokenBalance, walletAddress);
+    const wethBalance = allBalances.find(balance => balance.symbol === 'WETH');
+    const otherTokenBalances = allBalances.filter(balance => balance.symbol !== 'WETH');
 
-      // Get all token balances with rate limiting
-      const allBalances = await withRateLimit(getTokenBalance, walletAddress)
-      const wethBalance = allBalances.find(balance => balance.symbol === 'WETH')
-      const otherTokenBalances = allBalances.filter(balance => balance.symbol !== 'WETH')
+    const wethPriceChanges = await withRateLimit(getPriceChanges, 'WETH');
+    const allPriceChanges = await withRateLimit(getAllPriceChanges);
 
-      // Get price changes for all tokens with rate limiting
-      const allPriceChanges = await withRateLimit(getAllPriceChanges)
-      if (!allPriceChanges || !Array.isArray(allPriceChanges)) {
-        throw new Error('Failed to get all price changes')
-      }
+    const weth1hChange = wethPriceChanges.priceChanges.find(c => c.timeframe === '1h');
+    const weth6hChange = wethPriceChanges.priceChanges.find(c => c.timeframe === '6h');
 
-      // Validate price changes for all tokens
-      for (const token of otherTokenBalances) {
-        const tokenPriceData = allPriceChanges.find(t => t.symbol === token.symbol)
-        if (!tokenPriceData || !tokenPriceData.priceChanges) {
-          throw new Error(`Failed to get price changes for ${token.symbol}`)
-        }
-        const oneHourChange = tokenPriceData.priceChanges.find(change => change.timeframe === '1h')
-        const sixHourChange = tokenPriceData.priceChanges.find(change => change.timeframe === '6h')
-        if (!oneHourChange || !sixHourChange) {
-          throw new Error(`Missing price change data for ${token.symbol}`)
-        }
-      }
+    const wethAmount = wethBalance ? parseFloat(wethBalance.formattedBalance) : 0;
+    console.log(`\nExecuting Strategy 2...`);
+    console.log(`Current WETH balance: ${wethAmount}`);
 
-      // Check WETH price conditions
-      const isWethPositive = (weth1hChange.isPositive && weth1hChange.percentage > 1) || 
-                            (weth6hChange.isPositive && weth6hChange.percentage > 1)
+    // 2. Check if we have WETH to invest
+    if (wethAmount > 0.001) {
+      console.log('Checking entry conditions...');
+      // 2.1 Check ETH intervals
+      if (weth1hChange.percentage > 1 && weth6hChange.percentage > 3) {
+        console.log(`WETH is up >1% in 1h and >3% in 6h. Looking for a token to buy.`);
 
-      console.log(`WETH is positive: ${isWethPositive}`)
-      console.log(`WETH 1h change: ${weth1hChange.percentage}`)
-      console.log(`WETH 6h change: ${weth6hChange.percentage}`)
+        let bestToken = null;
+        let highestVariation = -Infinity;
 
-      let bestToken = null
-      let highestChange = -Infinity
-
-      if (isWethPositive) {
-        // Filter out WETH and find token with highest positive change
-        const otherTokensPriceChanges = allPriceChanges.filter(token => token.symbol !== 'WETH')
-        
-        for (const token of otherTokensPriceChanges) {
-          const oneHourChange = token.priceChanges.find(change => change.timeframe === '1h')
-          const sixHourChange = token.priceChanges.find(change => change.timeframe === '6h')
-          //if >30 skip
-          if (oneHourChange.percentage < 30 && sixHourChange.percentage < 30 && oneHourChange.isPositive && sixHourChange.isPositive)
-          { 
-            if (oneHourChange.isPositive && oneHourChange.percentage > highestChange) {
-              highestChange = oneHourChange.percentage
-              bestToken = token
-            }
-            if (sixHourChange.isPositive && sixHourChange.percentage > highestChange) {
-              highestChange = sixHourChange.percentage
-              bestToken = token
+        // 2.1.1 Find best token
+        for (const token of otherTokenBalances) {
+          const tokenPriceData = allPriceChanges.find(p => p.symbol === token.symbol);
+          if (!tokenPriceData) continue;
+          
+          const token1hChange = tokenPriceData.priceChanges.find(c => c.timeframe === '1h');
+          
+          if (token1hChange && token1hChange.isPositive && 
+              token1hChange.percentage >= (2 * weth1hChange.percentage) && 
+              token1hChange.percentage < 15) {
+            
+            if (token1hChange.percentage > highestVariation) {
+              highestVariation = token1hChange.percentage;
+              bestToken = token;
             }
           }
         }
-       
 
-        console.log(`Best token: ${bestToken.symbol} with ${highestChange}% change`)
-        
-        // If WETH is positive, only swap tokens that meet specific criteria
+        // 2.1.2 Swap if a token is found
         if (bestToken) {
-          const tokensToSwapToWeth = otherTokenBalances.filter(balance => {
-            if (parseFloat(balance.formattedBalance) <= 0.1) return false;
-            if (balance.symbol === bestToken.symbol) return false;
-            
-            const tokenPriceData = allPriceChanges.find(t => t.symbol === balance.symbol);
-            if (!tokenPriceData) return false;
-            
-            const oneHourChange = tokenPriceData.priceChanges.find(change => change.timeframe === '1h');
-            const sixHourChange = tokenPriceData.priceChanges.find(change => change.timeframe === '6h');
-            
-            // Check if token is down on 1h or 6h
-            const isDownOn1h = !oneHourChange.isPositive;
-            const isDownOn6h = !sixHourChange.isPositive;
-            
-            // Check if token has at least 2% growing difference compared to best token
-            const bestToken1h = bestToken.priceChanges.find(change => change.timeframe === '1h');
-            const bestToken6h = bestToken.priceChanges.find(change => change.timeframe === '6h');
-            
-            const growingDifference1h = bestToken1h.percentage - oneHourChange.percentage;
-            const growingDifference6h = bestToken6h.percentage - sixHourChange.percentage;
-            
-            const has2PercentDifference = growingDifference1h >= 4 || growingDifference6h >= 4;
-            
-            // Swap if token is down on 1h or 6h, OR has at least 4% growing difference
-            return isDownOn1h || isDownOn6h || has2PercentDifference;
-          });
-
-          console.log(`\nTokens to swap to WETH (down on 1h/6h or 4%+ difference from best):`);
-          tokensToSwapToWeth.forEach(token => {
-            const tokenPriceData = allPriceChanges.find(t => t.symbol === token.symbol);
-            const oneHourChange = tokenPriceData.priceChanges.find(change => change.timeframe === '1h');
-            const sixHourChange = tokenPriceData.priceChanges.find(change => change.timeframe === '6h');
-            const bestToken1h = bestToken.priceChanges.find(change => change.timeframe === '1h');
-            const bestToken6h = bestToken.priceChanges.find(change => change.timeframe === '6h');
-            
-            const growingDifference1h = bestToken1h.percentage - oneHourChange.percentage;
-            const growingDifference6h = bestToken6h.percentage - sixHourChange.percentage;
-            
-            console.log(`${token.symbol}: 1h(${oneHourChange.percentage}%), 6h(${sixHourChange.percentage}%), diff from best: 1h(${growingDifference1h.toFixed(2)}%), 6h(${growingDifference6h.toFixed(2)}%)`);
-          });
-
-          // First, swap qualifying tokens to WETH and wait for each transaction
-          console.log('\nSwapping qualifying tokens to WETH...')
-          for (const token of tokensToSwapToWeth) {
-            const tokenPriceChanges = allPriceChanges.find(t => t.symbol === token.symbol)
-            const priceChanges = {
-              wethPriceChanges: {
-                '1h': weth1hChange,
-                '6h': weth6hChange
-              },
-              tokenPriceChanges: {
-                '1h': tokenPriceChanges.priceChanges.find(change => change.timeframe === '1h'),
-                '6h': tokenPriceChanges.priceChanges.find(change => change.timeframe === '6h')
-              }
-            }
-            console.log(`Swapping ${token.symbol} to WETH (meets swap criteria)...`)
-            const swapTx = await swapTokens(token.symbol, 'WETH', token.rawBalance, priceChanges)
-            console.log(`Waiting for ${token.symbol} to WETH swap to be confirmed...`)
-            await swapTx.wait() // Wait for transaction to be confirmed
-            console.log(`${token.symbol} to WETH swap confirmed!`)
-          }
-
-          // Get updated WETH balance after all swaps
-          console.log('\nGetting updated WETH balance...')
-          const updatedBalances = await withRateLimit(getTokenBalance, walletAddress)
-          const updatedWethBalance = updatedBalances.find(balance => balance.symbol === 'WETH')
-          console.log(`Updated WETH balance: ${updatedWethBalance.formattedBalance}`)
-          if (updatedWethBalance.formattedBalance > 0.0001) {
-            // After all WETH swaps are confirmed, swap WETH to best token
-            const bestTokenPriceChanges = allPriceChanges.find(t => t.symbol === bestToken.symbol)
-            const priceChanges = {
-              wethPriceChanges: {
-                '1h': weth1hChange,
-                '6h': weth6hChange
-              },
-              tokenPriceChanges: {
-                '1h': bestTokenPriceChanges.priceChanges.find(change => change.timeframe === '1h'),
-                '6h': bestTokenPriceChanges.priceChanges.find(change => change.timeframe === '6h')
-              }
-            }
-            console.log(`\nAll WETH swaps completed. Now swapping WETH to ${bestToken.symbol}...`)
-            const finalSwapTx = await swapTokens('WETH', bestToken.symbol, updatedWethBalance.rawBalance, priceChanges)
-            console.log('Waiting for final swap to be confirmed...')
-            await finalSwapTx.wait()
-            console.log(`Successfully swapped WETH to ${bestToken.symbol}!`)
-          } else {
-            console.log('\nNo WETH balance found.. Already on token')
-          }
+          console.log(`Found best token: ${bestToken.symbol} with 1h change of ${highestVariation}%. Swapping WETH to ${bestToken.symbol}.`);
+          const swapTx = await swapTokens('WETH', bestToken.symbol, wethBalance.rawBalance);
+          await swapTx.wait();
+          swapped = true;
+          console.log(`Successfully swapped WETH to ${bestToken.symbol}!`);
         } else {
-          console.log('\nNo tokens with positive price change found. Keeping WETH.')
+          console.log('No token met the entry criteria. Holding WETH.');
         }
       } else {
-        // If WETH is not positive, check if it's down more than 0.95% in 1h timeframe
-        const isWethDownSignificantly = 
-          !weth1hChange.isPositive && weth1hChange.percentage < -0.95 /*&&
-          !weth6hChange.isPositive && weth6hChange.percentage < -0.85*/;
-
-        // Find tokens that are down more than 3% in 1h
-        const tokensDownSignificantly = otherTokenBalances.filter(balance => {
-          if (balance.symbol === 'WETH') return false;
-          const tokenPriceChanges = allPriceChanges.find(t => t.symbol === balance.symbol);
-          if (!tokenPriceChanges) return false;
-          const oneHourChange = tokenPriceChanges.priceChanges.find(change => change.timeframe === '1h');
-          return oneHourChange && !oneHourChange.isPositive && oneHourChange.percentage < -3;
-        });
-
-        // Combine both conditions: WETH down significantly or tokens down more than 3%
-        if (isWethDownSignificantly || tokensDownSignificantly.length > 0) {
-          let tokensToSwapToWeth = [];
-
-          if (isWethDownSignificantly) {
-            // Add all tokens with balance > 1
-            tokensToSwapToWeth = otherTokenBalances.filter(balance => 
-              parseFloat(balance.formattedBalance) > 0.1
-            );
-            console.log('\nWETH is down significantly (>0.75%) in both timeframes. Swapping all tokens to WETH...');
-          }
-
-          // Add tokens that are down more than 3% in 1h
-          tokensDownSignificantly.forEach(token => {
-            if (parseFloat(token.formattedBalance) > 0.0001) {
-              tokensToSwapToWeth.push(token);
-            }
-          });
-
-          if (tokensDownSignificantly.length > 0) {
-            console.log('\nFound tokens down more than 3% in 1h timeframe:');
-            tokensDownSignificantly.forEach(token => {
-              const tokenPriceChanges = allPriceChanges.find(t => t.symbol === token.symbol);
-              const oneHourChange = tokenPriceChanges.priceChanges.find(change => change.timeframe === '1h');
-              console.log(`${token.symbol}: ${oneHourChange.percentage}%`);
-            });
-          }
-
-          // Remove duplicates and WETH
-          tokensToSwapToWeth = tokensToSwapToWeth.filter((token, index, self) =>
-            token.symbol !== 'WETH' && 
-            index === self.findIndex(t => t.symbol === token.symbol)
-          );
-
-          for (const token of tokensToSwapToWeth) {
-            const tokenPriceChanges = allPriceChanges.find(t => t.symbol === token.symbol)
-            const priceChanges = {
-              wethPriceChanges: {
-                '1h': weth1hChange,
-                '6h': weth6hChange
-              },
-              tokenPriceChanges: {
-                '1h': tokenPriceChanges.priceChanges.find(change => change.timeframe === '1h'),
-                '6h': tokenPriceChanges.priceChanges.find(change => change.timeframe === '6h')
-              }
-            }
-            console.log(`Swapping ${token.symbol} to WETH (${isWethDownSignificantly ? 'WETH down >0.75%' : 'Token down >3%'})...`)
-            const swapTx = await swapTokens(token.symbol, 'WETH', token.rawBalance, priceChanges)
-            console.log(`Waiting for ${token.symbol} to WETH swap to be confirmed...`)
-            await swapTx.wait() // Wait for transaction to be confirmed
-            console.log(`${token.symbol} to WETH swap confirmed!`)
-          }
-        } else {
-          console.log('\nNo significant price changes detected. Keeping current positions.')
-          console.log(`WETH 1h change: ${weth1hChange.percentage}%`)
-          console.log(`WETH 6h change: ${weth6hChange.percentage}%`)
-        }
+        console.log('WETH price movement does not meet entry criteria. Holding WETH.');
       }
+    } else { // 3. WETH balance is low, check for exit
+      console.log('Checking exit conditions...');
+      // 3.1 Get token with significant balance
+      const currentTokenHolding = otherTokenBalances.find(b => parseFloat(b.formattedBalance) > 0.01);
 
-      // If we get here, everything worked, so break the retry loop
-      break;
+      if (currentTokenHolding) {
+        console.log(`Currently holding ${currentTokenHolding.symbol}`);
+        const tokenPriceData = allPriceChanges.find(p => p.symbol === currentTokenHolding.symbol);
+        const token1hChange = tokenPriceData.priceChanges.find(c => c.timeframe === '1h');
 
-    } catch (error) {
-      retryCount++;
-      console.error(`Error in trading strategy (attempt ${retryCount}/${maxRetries}):`, error.message)
-      
-      if (retryCount < maxRetries) {
-        console.log('Retrying in 15 seconds...')
-        await new Promise(resolve => setTimeout(resolve, 15000)) // Wait 15 seconds
+        // 3.2 Check exit conditions
+        const exitCondition1 = !weth1hChange.isPositive && weth1hChange.percentage < -0.5;
+        const exitCondition2 = token1hChange && !token1hChange.isPositive && token1hChange.percentage < -3;
+
+        if (exitCondition1 || exitCondition2) {
+          console.log(`Exit condition met. WETH 1h: ${weth1hChange.percentage}%, Token 1h: ${token1hChange ? token1hChange.percentage : 'N/A'}%`);
+          console.log(`Swapping ${currentTokenHolding.symbol} back to WETH.`);
+          // 3.2.1 Swap token for WETH
+          const swapTx = await swapTokens(currentTokenHolding.symbol, 'WETH', currentTokenHolding.rawBalance);
+          await swapTx.wait();
+          swapped = true;
+          console.log(`Successfully swapped ${currentTokenHolding.symbol} to WETH!`);
+        } else {
+          console.log('Exit conditions not met. Holding token.');
+        }
       } else {
-        console.error('Max retries reached. Giving up until next 15 minutes')
+        console.log('No significant token holding found and WETH balance is low. Nothing to do.');
       }
     }
+
+  } catch (error) {
+    console.error('Error in executeTradingStrategy2:', error.message);
+    // Not re-throwing the error to prevent retries from the main loop if it's a strategy logic issue
   }
+  return swapped;
 }
 
 module.exports = {
   executeTradingStrategy,
+  executeTradingStrategy2,
   swapTokens
 } 
