@@ -127,7 +127,7 @@
 
     function renderGraph1(transactions) {
       const ctx = document.getElementById('graph1').getContext('2d');
-      const labels = transactions.map(tx => tx.date.slice(11, 19));
+      const labels = transactions.map(tx => `${tx.date.slice(11, 19)} (${tx.token})`);
       const data = transactions.map(tx => tx.profitLoss);
       if (graph1) graph1.destroy();
       graph1 = new Chart(ctx, {

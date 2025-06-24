@@ -290,13 +290,14 @@ async function executeTradingStrategy(walletAddress) {
             }
           }
         }
+       
 
         console.log(`Best token: ${bestToken.symbol} with ${highestChange}% change`)
         
         // If WETH is positive, only swap tokens that meet specific criteria
         if (bestToken) {
           const tokensToSwapToWeth = otherTokenBalances.filter(balance => {
-            if (parseFloat(balance.formattedBalance) <= 1) return false;
+            if (parseFloat(balance.formattedBalance) <= 0.1) return false;
             if (balance.symbol === bestToken.symbol) return false;
             
             const tokenPriceData = allPriceChanges.find(t => t.symbol === balance.symbol);
@@ -387,10 +388,10 @@ async function executeTradingStrategy(walletAddress) {
           console.log('\nNo tokens with positive price change found. Keeping WETH.')
         }
       } else {
-        // If WETH is not positive, check if it's down more than 0.85% in both timeframes
+        // If WETH is not positive, check if it's down more than 0.95% in 1h timeframe
         const isWethDownSignificantly = 
-          !weth1hChange.isPositive && weth1hChange.percentage < -0.85 &&
-          !weth6hChange.isPositive && weth6hChange.percentage < -0.85;
+          !weth1hChange.isPositive && weth1hChange.percentage < -0.95 /*&&
+          !weth6hChange.isPositive && weth6hChange.percentage < -0.85*/;
 
         // Find tokens that are down more than 3% in 1h
         const tokensDownSignificantly = otherTokenBalances.filter(balance => {
