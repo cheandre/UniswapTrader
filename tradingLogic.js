@@ -241,8 +241,8 @@ async function executeTradingStrategy2(walletAddress) {
     if (wethAmount > 0.001) {
       console.log('Checking entry conditions...');
       // 2.1 Check ETH intervals
-      if (weth1hChange.percentage > 1 && weth6hChange.percentage > 3) {
-        console.log(`WETH is up >1% in 1h and >3% in 6h. Looking for a token to buy.`);
+      if (weth1hChange.percentage > 1 && weth6hChange.percentage > 2) {
+        console.log(`WETH is up >1% in 1h and >2% in 6h. Looking for a token to buy.`);
 
         let bestToken = null;
         let highestVariation = -Infinity;
@@ -316,7 +316,6 @@ async function executeTradingStrategy2(walletAddress) {
 }
 
 module.exports = {
-  executeTradingStrategy,
   executeTradingStrategy2,
   swapTokens
 } 

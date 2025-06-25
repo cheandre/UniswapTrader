@@ -3210,5 +3210,85 @@
       "amount1": "-2937572286233495"
     },
     "timestamp": "2025-06-24T10:33:53.262Z"
+  },
+  {
+    "tokenIn": "WETH",
+    "tokenOut": "NATIVE",
+    "amountIn": "0.002937572286233495",
+    "amountOutMinimum": "108123.980895278233219869",
+    "poolAddress": "0x4cd15f2BC9533Bf6faC4ae33C649f138CB601935",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "12593728477221757669671205",
+      "actualPrice": 39577696.723765,
+      "token0IsInput": false
+    },
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "percentage": 0,
+          "isPositive": false
+        },
+        "6h": {
+          "percentage": 0,
+          "isPositive": false
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "percentage": 0,
+          "isPositive": false
+        },
+        "6h": {
+          "percentage": 0,
+          "isPositive": false
+        }
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "-115098024295376479960151",
+      "amount1": "2937572286233495"
+    },
+    "timestamp": "2025-06-24T16:44:46.312Z"
+  },
+  {
+    "tokenIn": "NATIVE",
+    "tokenOut": "WETH",
+    "amountIn": "115098.024295376479960151",
+    "amountOutMinimum": "0.002573464992446328",
+    "poolAddress": "0x4cd15f2BC9533Bf6faC4ae33C649f138CB601935",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "12284664705037718147175463",
+      "actualPrice": 2.4041825873944188e-8,
+      "token0IsInput": true
+    },
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "percentage": 0,
+          "isPositive": false
+        },
+        "6h": {
+          "percentage": 0,
+          "isPositive": false
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "percentage": 0,
+          "isPositive": false
+        },
+        "6h": {
+          "percentage": 0,
+          "isPositive": false
+        }
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "115098024295376479960151",
+      "amount1": "-2739447773318306"
+    },
+    "timestamp": "2025-06-24T17:10:30.032Z"
   }
 ]
