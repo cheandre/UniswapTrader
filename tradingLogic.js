@@ -241,7 +241,7 @@ async function executeTradingStrategy2(walletAddress) {
     if (wethAmount > 0.001) {
       console.log('Checking entry conditions...');
       // 2.1 Check ETH intervals
-      if (weth1hChange.percentage > 1 && weth6hChange.percentage > 1.5) {
+      if (weth1hChange.percentage > 0.75 && weth6hChange.percentage > 1.5) {
         console.log(`WETH is up >1% in 1h and >1.5% in 6h. Looking for a token to buy.`);
 
         let bestToken = null;

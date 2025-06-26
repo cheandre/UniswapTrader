@@ -3290,5 +3290,85 @@
       "amount1": "-2739447773318306"
     },
     "timestamp": "2025-06-24T17:10:30.032Z"
+  },
+  {
+    "tokenIn": "WETH",
+    "tokenOut": "NATIVE",
+    "amountIn": "0.002739447773318306",
+    "amountOutMinimum": "102981.277853375198901631",
+    "poolAddress": "0x4cd15f2BC9533Bf6faC4ae33C649f138CB601935",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "12461589252776477519881022",
+      "actualPrice": 40421488.5606143,
+      "token0IsInput": false
+    },
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "percentage": 0,
+          "isPositive": false
+        },
+        "6h": {
+          "percentage": 0,
+          "isPositive": false
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "percentage": 0,
+          "isPositive": false
+        },
+        "6h": {
+          "percentage": 0,
+          "isPositive": false
+        }
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "-109623386163075482097080",
+      "amount1": "2739447773318306"
+    },
+    "timestamp": "2025-06-26T03:02:06.389Z"
+  },
+  {
+    "tokenIn": "NATIVE",
+    "tokenOut": "WETH",
+    "amountIn": "109623.38616307548209708",
+    "amountOutMinimum": "0.00254326298871798",
+    "poolAddress": "0x4cd15f2BC9533Bf6faC4ae33C649f138CB601935",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "12513596255902569936665307",
+      "actualPrice": 2.4946240774301005e-8,
+      "token0IsInput": true
+    },
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "percentage": 0,
+          "isPositive": false
+        },
+        "6h": {
+          "percentage": 0,
+          "isPositive": false
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "percentage": 0,
+          "isPositive": false
+        },
+        "6h": {
+          "percentage": 0,
+          "isPositive": false
+        }
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "109623386163075482097080",
+      "amount1": "-2707299172760030"
+    },
+    "timestamp": "2025-06-26T04:04:36.895Z"
   }
 ]
