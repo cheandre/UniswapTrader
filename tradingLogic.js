@@ -232,6 +232,7 @@ async function executeTradingStrategy2(walletAddress) {
 
     const weth1hChange = wethPriceChanges.priceChanges.find(c => c.timeframe === '1h');
     const weth6hChange = wethPriceChanges.priceChanges.find(c => c.timeframe === '6h');
+    const weth5mChange = wethPriceChanges.priceChanges.find(c => c.timeframe === '5m');
 
     const wethAmount = wethBalance ? parseFloat(wethBalance.formattedBalance) : 0;
     console.log(`\nExecuting Strategy 2...`);
@@ -241,8 +242,8 @@ async function executeTradingStrategy2(walletAddress) {
     if (wethAmount > 0.001) {
       console.log('Checking entry conditions...');
       // 2.1 Check ETH intervals
-      if (weth1hChange.percentage > 0.75 && weth6hChange.percentage > 1.5) {
-        console.log(`WETH is up >1% in 1h and >1.5% in 6h. Looking for a token to buy.`);
+      if (weth1hChange.percentage > 0.4 && weth5mChange.percentage > 0.1) {
+        console.log(`WETH is up >0.4% in 1h and >0.1% in 5m. Looking for a token to buy.`);
 
         let bestToken = null;
         let highestVariation = -Infinity;
@@ -255,7 +256,7 @@ async function executeTradingStrategy2(walletAddress) {
           const token1hChange = tokenPriceData.priceChanges.find(c => c.timeframe === '1h');
           
           if (token1hChange && token1hChange.isPositive && 
-              token1hChange.percentage >= (2 * weth1hChange.percentage) && 
+              token1hChange.percentage >= 2 && 
               token1hChange.percentage < 15) {
             
             if (token1hChange.percentage > highestVariation) {
@@ -268,7 +269,20 @@ async function executeTradingStrategy2(walletAddress) {
         // 2.1.2 Swap if a token is found
         if (bestToken) {
           console.log(`Found best token: ${bestToken.symbol} with 1h change of ${highestVariation}%. Swapping WETH to ${bestToken.symbol}.`);
-          const swapTx = await swapTokens('WETH', bestToken.symbol, wethBalance.rawBalance);
+          const bestTokenPriceData = allPriceChanges.find(p => p.symbol === bestToken.symbol);
+          const priceChanges = {
+            wethPriceChanges: {
+              '1h': weth1hChange,
+              '6h': weth6hChange,
+              '5m': weth5mChange
+            },
+            tokenPriceChanges: {
+              '1h': bestTokenPriceData.priceChanges.find(c => c.timeframe === '1h'),
+              '6h': bestTokenPriceData.priceChanges.find(c => c.timeframe === '6h'),
+              '5m': bestTokenPriceData.priceChanges.find(c => c.timeframe === '5m')
+            }
+          };
+          const swapTx = await swapTokens('WETH', bestToken.symbol, wethBalance.rawBalance, priceChanges);
           await swapTx.wait();
           swapped = true;
           console.log(`Successfully swapped WETH to ${bestToken.symbol}!`);
@@ -287,16 +301,30 @@ async function executeTradingStrategy2(walletAddress) {
         console.log(`Currently holding ${currentTokenHolding.symbol}`);
         const tokenPriceData = allPriceChanges.find(p => p.symbol === currentTokenHolding.symbol);
         const token1hChange = tokenPriceData.priceChanges.find(c => c.timeframe === '1h');
+        const token5mChange = tokenPriceData.priceChanges.find(c => c.timeframe === '5m');
 
         // 3.2 Check exit conditions
-        const exitCondition1 = !weth1hChange.isPositive && weth1hChange.percentage < -0.5;
+        const exitCondition1 = !weth1hChange.isPositive && weth1hChange.percentage < -0.5 && token5mChange.percentage <= 0;
         const exitCondition2 = token1hChange && !token1hChange.isPositive && token1hChange.percentage < -3;
+        const exitCondition3 = token5mChange && !token5mChange.isPositive && token5mChange.percentage < -3;
 
-        if (exitCondition1 || exitCondition2) {
-          console.log(`Exit condition met. WETH 1h: ${weth1hChange.percentage}%, Token 1h: ${token1hChange ? token1hChange.percentage : 'N/A'}%`);
+        if (exitCondition1 || exitCondition2 || exitCondition3) {
+          console.log(`Exit condition met. WETH 1h: ${weth1hChange.percentage}%, Token 1h: ${token1hChange ? token1hChange.percentage : 'N/A'}%, Token 5m: ${token5mChange ? token5mChange.percentage : 'N/A'}%`);
           console.log(`Swapping ${currentTokenHolding.symbol} back to WETH.`);
+          const priceChanges = {
+            wethPriceChanges: {
+              '1h': weth1hChange,
+              '6h': weth6hChange,
+              '5m': weth5mChange
+            },
+            tokenPriceChanges: {
+              '1h': token1hChange,
+              '6h': tokenPriceData.priceChanges.find(c => c.timeframe === '6h'),
+              '5m': token5mChange
+            }
+          };
           // 3.2.1 Swap token for WETH
-          const swapTx = await swapTokens(currentTokenHolding.symbol, 'WETH', currentTokenHolding.rawBalance);
+          const swapTx = await swapTokens(currentTokenHolding.symbol, 'WETH', currentTokenHolding.rawBalance, priceChanges);
           await swapTx.wait();
           swapped = true;
           console.log(`Successfully swapped ${currentTokenHolding.symbol} to WETH!`);
