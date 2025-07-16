@@ -11,6 +11,7 @@ async function getPriceChanges(tokenSymbol) {
 
     try {
         const priceData = await getTokenPrice('base', token.address);
+        const price = priceData.data.price;
         
         // Extract the variations from the response and handle null values
         const priceChanges = [
@@ -36,8 +37,9 @@ async function getPriceChanges(tokenSymbol) {
             }
         ];
 
-        // Log all intervals for the token
+        // Log all intervals for the token, including price
         console.log(`\nPrice changes for ${tokenSymbol}:`);
+        console.log(`Current price: ${price}`);
         priceChanges.forEach(change => {
             console.log(`${change.timeframe}: ${change.percentage}% (${change.isPositive ? 'up' : 'down'})`);
         });
@@ -45,6 +47,7 @@ async function getPriceChanges(tokenSymbol) {
         return {
             symbol: tokenSymbol,
             name: token.name,
+            price,
             priceChanges
         };
     } catch (error) {

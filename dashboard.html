@@ -223,7 +223,7 @@
       if (!date) {
         filteredTransactions = allTransactions;
       } else {
-        filteredTransactions = allTransactions.filter(tx => tx.date.slice(0, 10) === date);
+        filteredTransactions = allTransactions.filter(tx => tx.date.slice(0, 10) >= date);
       }
       renderGraph1(filteredTransactions);
     });

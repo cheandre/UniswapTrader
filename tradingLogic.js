@@ -9,6 +9,8 @@ const { getPriceChanges, getAllPriceChanges, getChainIds } = require('./priceMon
 const { saveTrade } = require('./tradeLogger')
 const tokens = require('./tokens.json')
 const ERC20ABI = require('./abi.json')
+const fs = require('fs');
+const path = require('path');
 
 require('dotenv').config()
 const INFURA_URL_MAINNET = process.env.INFURA_URL_MAINNET
@@ -71,7 +73,7 @@ async function calculateMinimumOutput(amountIn, poolContract, decimalsIn, decima
   }
 }
 
-async function swapTokens(tokenInSymbol, tokenOutSymbol, amount, priceChanges = null) {
+async function swapTokens(tokenInSymbol, tokenOutSymbol, amount, priceChanges = null, tokenApiPrice = null) {
   // Get token information from the configuration
   const tokenIn = tokens[tokenInSymbol]
   const tokenOut = tokens[tokenOutSymbol]
@@ -170,6 +172,7 @@ async function swapTokens(tokenInSymbol, tokenOutSymbol, amount, priceChanges = 
         (2 ** 96 / Number(state.sqrtPriceX96)) ** 2,
       token0IsInput: isToken0Input
     },
+    apiPrice: tokenApiPrice,
     context: priceChanges || {
       wethPriceChanges: {
         '1h': { percentage: 0, isPositive: false },
@@ -218,6 +221,50 @@ async function swapTokens(tokenInSymbol, tokenOutSymbol, amount, priceChanges = 
   return swapTx;
 }
 
+function getEntryPriceFromTrades(tokenSymbol) {
+  const TRADES_FILE = path.join(process.cwd(), 'trades.json');
+  if (!fs.existsSync(TRADES_FILE)) return null;
+  const trades = JSON.parse(fs.readFileSync(TRADES_FILE, 'utf8'));
+  // Find the last trade where WETH was swapped to this token
+  for (let i = trades.length - 1; i >= 0; i--) {
+    const t = trades[i];
+    if (t.tokenIn === 'WETH' && t.tokenOut === tokenSymbol && typeof t.apiPrice === 'number') {
+      return t.apiPrice;
+    }
+    // fallback: if price is not in apiPrice, try context or top-level price
+    if (t.tokenIn === 'WETH' && t.tokenOut === tokenSymbol && t.context && t.context.tokenPriceChanges && t.context.tokenPriceChanges.price) {
+      return t.context.tokenPriceChanges.price;
+    }
+    if (t.tokenIn === 'WETH' && t.tokenOut === tokenSymbol && t.price && typeof t.price === 'number') {
+      return t.price;
+    }
+  }
+  return null;
+}
+
+function getEntryAndHighestPriceFromTrades(tokenSymbol, currentPrice) {
+  const TRADES_FILE = path.join(process.cwd(), 'trades.json');
+  if (!fs.existsSync(TRADES_FILE)) return { entryPrice: null, highestPrice: null };
+  const trades = JSON.parse(fs.readFileSync(TRADES_FILE, 'utf8'));
+  // Find the last trade where WETH was swapped to this token
+  for (let i = trades.length - 1; i >= 0; i--) {
+    const t = trades[i];
+    if (t.tokenIn === 'WETH' && t.tokenOut === tokenSymbol) {
+      let entryPrice = t.apiPrice;
+      let highestPrice = t.context && t.context.tokenPriceChanges && t.context.tokenPriceChanges.highestPrice ? t.context.tokenPriceChanges.highestPrice : entryPrice;
+      // Update highestPrice if currentPrice is higher
+      if (currentPrice > highestPrice) {
+        highestPrice = currentPrice;
+        // Update the trade log with the new highestPrice
+        t.context.tokenPriceChanges.highestPrice = currentPrice;
+        trades[i] = t;
+        fs.writeFileSync(TRADES_FILE, JSON.stringify(trades, null, 2));
+      }
+      return { entryPrice, highestPrice };
+    }
+  }
+  return { entryPrice: null, highestPrice: null };
+}
 
 async function executeTradingStrategy2(walletAddress) {
   let swapped = false;
@@ -233,6 +280,7 @@ async function executeTradingStrategy2(walletAddress) {
     const weth1hChange = wethPriceChanges.priceChanges.find(c => c.timeframe === '1h');
     const weth6hChange = wethPriceChanges.priceChanges.find(c => c.timeframe === '6h');
     const weth5mChange = wethPriceChanges.priceChanges.find(c => c.timeframe === '5m');
+    const weth24hChange = wethPriceChanges.priceChanges.find(c => c.timeframe === '24h');
 
     const wethAmount = wethBalance ? parseFloat(wethBalance.formattedBalance) : 0;
     console.log(`\nExecuting Strategy 2...`);
@@ -241,9 +289,11 @@ async function executeTradingStrategy2(walletAddress) {
     // 2. Check if we have WETH to invest
     if (wethAmount > 0.001) {
       console.log('Checking entry conditions...');
-      // 2.1 Check ETH intervals
-      if (weth1hChange.percentage > 0.4 && weth5mChange.percentage > 0.1) {
-        console.log(`WETH is up >0.4% in 1h and >0.1% in 5m. Looking for a token to buy.`);
+      // Entry condition: WETH must be positive in all intervals OR (1h > 0.4% and 5m > 0.1%)
+      const wethAllPositive = [weth5mChange, weth1hChange, weth6hChange, weth24hChange].every(c => c && c.isPositive);
+      const ethMomentum = weth1hChange.percentage > 0.5 && weth5mChange.percentage > 0.1;
+      if (wethAllPositive || ethMomentum) {
+        console.log('Entry condition met: WETH is positive in all intervals OR strong short-term momentum. Looking for a token to buy.');
 
         let bestToken = null;
         let highestVariation = -Infinity;
@@ -256,7 +306,7 @@ async function executeTradingStrategy2(walletAddress) {
           const token1hChange = tokenPriceData.priceChanges.find(c => c.timeframe === '1h');
           
           if (token1hChange && token1hChange.isPositive && 
-              token1hChange.percentage >= 2 && 
+              token1hChange.percentage >= 1.5 && 
               token1hChange.percentage < 15) {
             
             if (token1hChange.percentage > highestVariation) {
@@ -279,10 +329,12 @@ async function executeTradingStrategy2(walletAddress) {
             tokenPriceChanges: {
               '1h': bestTokenPriceData.priceChanges.find(c => c.timeframe === '1h'),
               '6h': bestTokenPriceData.priceChanges.find(c => c.timeframe === '6h'),
-              '5m': bestTokenPriceData.priceChanges.find(c => c.timeframe === '5m')
+              '5m': bestTokenPriceData.priceChanges.find(c => c.timeframe === '5m'),
+              price: bestTokenPriceData.price,
+              highestPrice: bestTokenPriceData.price // initialize highestPrice
             }
           };
-          const swapTx = await swapTokens('WETH', bestToken.symbol, wethBalance.rawBalance, priceChanges);
+          const swapTx = await swapTokens('WETH', bestToken.symbol, wethBalance.rawBalance, priceChanges, bestTokenPriceData.price);
           await swapTx.wait();
           swapped = true;
           console.log(`Successfully swapped WETH to ${bestToken.symbol}!`);
@@ -290,7 +342,7 @@ async function executeTradingStrategy2(walletAddress) {
           console.log('No token met the entry criteria. Holding WETH.');
         }
       } else {
-        console.log('WETH price movement does not meet entry criteria. Holding WETH.');
+        console.log('Entry conditions not met. Skipping entry.');
       }
     } else { // 3. WETH balance is low, check for exit
       console.log('Checking exit conditions...');
@@ -304,13 +356,13 @@ async function executeTradingStrategy2(walletAddress) {
         const token5mChange = tokenPriceData.priceChanges.find(c => c.timeframe === '5m');
 
         // 3.2 Check exit conditions
-        const exitCondition1 = !weth1hChange.isPositive && weth1hChange.percentage < -0.5 && token5mChange.percentage <= 0;
-        const exitCondition2 = token1hChange && !token1hChange.isPositive && token1hChange.percentage < -3;
-        const exitCondition3 = token5mChange && !token5mChange.isPositive && token5mChange.percentage < -3;
+        const { entryPrice, highestPrice } = getEntryAndHighestPriceFromTrades(currentTokenHolding.symbol, tokenPriceData.price);
+        const priceDropFromHigh = highestPrice ? ((tokenPriceData.price - highestPrice) / highestPrice) * 100 : 0;
+        const exitCondition1 = !weth1hChange.isPositive && weth1hChange.percentage < -0.5 && token5mChange.percentage <= -0.2;
+        const exitConditionTrailing = highestPrice && priceDropFromHigh <= -3;
 
-        if (exitCondition1 || exitCondition2 || exitCondition3) {
-          console.log(`Exit condition met. WETH 1h: ${weth1hChange.percentage}%, Token 1h: ${token1hChange ? token1hChange.percentage : 'N/A'}%, Token 5m: ${token5mChange ? token5mChange.percentage : 'N/A'}%`);
-          console.log(`Swapping ${currentTokenHolding.symbol} back to WETH.`);
+        if (exitCondition1 || exitConditionTrailing) {
+          console.log(`Exit condition met. WETH 1h: ${weth1hChange.percentage}%, Token entry price: ${entryPrice}, highest price: ${highestPrice}, current price: ${tokenPriceData.price}, drop from high: ${priceDropFromHigh.toFixed(2)}%`);
           const priceChanges = {
             wethPriceChanges: {
               '1h': weth1hChange,
@@ -320,11 +372,13 @@ async function executeTradingStrategy2(walletAddress) {
             tokenPriceChanges: {
               '1h': token1hChange,
               '6h': tokenPriceData.priceChanges.find(c => c.timeframe === '6h'),
-              '5m': token5mChange
+              '5m': token5mChange,
+              price: tokenPriceData.price,
+              highestPrice: highestPrice
             }
           };
           // 3.2.1 Swap token for WETH
-          const swapTx = await swapTokens(currentTokenHolding.symbol, 'WETH', currentTokenHolding.rawBalance, priceChanges);
+          const swapTx = await swapTokens(currentTokenHolding.symbol, 'WETH', currentTokenHolding.rawBalance, priceChanges, tokenPriceData.price);
           await swapTx.wait();
           swapped = true;
           console.log(`Successfully swapped ${currentTokenHolding.symbol} to WETH!`);
