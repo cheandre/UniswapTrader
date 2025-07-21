@@ -7720,5 +7720,2741 @@
       "amount1": "-4349254606631492"
     },
     "timestamp": "2025-07-16T09:43:39.373Z"
+  },
+  {
+    "tokenIn": "WETH",
+    "tokenOut": "NOICE",
+    "amountIn": "0.004349254606631492",
+    "amountOutMinimum": "66248.161138415714958683",
+    "poolAddress": "0xeFF7f8Fe083d7a446717B992bf84391253e54789",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "320639931737754744373850317936700",
+      "actualPrice": 16378572.493928002,
+      "token0IsInput": true
+    },
+    "apiPrice": 0.00019264190525758532,
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 0.05,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 0.43,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0.12,
+          "isPositive": true
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 1.66,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 2.73,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": -0.01,
+          "isPositive": false
+        },
+        "price": 0.00019264190525758532,
+        "highestPrice": 0.00019264190525758532
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "4349254606631492",
+      "amount1": "-70521424511129842052303"
+    },
+    "timestamp": "2025-07-16T11:32:01.161Z"
+  },
+  {
+    "tokenIn": "NOICE",
+    "tokenOut": "WETH",
+    "amountIn": "70521.424511129842052303",
+    "amountOutMinimum": "0.003863822519365634",
+    "poolAddress": "0xeFF7f8Fe083d7a446717B992bf84391253e54789",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "326417182276980029810274933775872",
+      "actualPrice": 5.891327208839822e-8,
+      "token0IsInput": false
+    },
+    "apiPrice": 0.00018583095817147036,
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 0.25,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 0.4,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": -0.01,
+          "isPositive": false
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": -3.07,
+          "isPositive": false
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": -1.77,
+          "isPositive": false
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": -1.15,
+          "isPositive": false
+        },
+        "price": 0.00018583095817147036,
+        "highestPrice": 0.00019264190525758532
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "-4113056451695978",
+      "amount1": "70521424511129842052303"
+    },
+    "timestamp": "2025-07-16T12:13:33.187Z"
+  },
+  {
+    "tokenIn": "WETH",
+    "tokenOut": "HIGHER",
+    "amountIn": "0.004113056451695978",
+    "amountOutMinimum": "3160.41519465942565148",
+    "poolAddress": "0xCC28456d4Ff980CeE3457Ca809a257E52Cd9CDb0",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "87162830022284049618916366",
+      "actualPrice": 826221.557653236,
+      "token0IsInput": false
+    },
+    "apiPrice": 0.0038567995143252323,
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 0.45,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 1.01,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0.15,
+          "isPositive": true
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 0.53,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 7.19,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0.03,
+          "isPositive": true
+        },
+        "price": 0.0038567995143252323,
+        "highestPrice": 0.003944897275873612
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "-3363710076900869431450",
+      "amount1": "4113056451695978"
+    },
+    "timestamp": "2025-07-16T12:43:21.107Z"
+  },
+  {
+    "tokenIn": "HIGHER",
+    "tokenOut": "WETH",
+    "amountIn": "3363.71007690086943145",
+    "amountOutMinimum": "0.003634154684669062",
+    "poolAddress": "0xCC28456d4Ff980CeE3457Ca809a257E52Cd9CDb0",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "85394624996513845066243071",
+      "actualPrice": 0.000001161721170964264,
+      "token0IsInput": true
+    },
+    "apiPrice": 0.003737323719223345,
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 1.63,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 2.33,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": -0.06,
+          "isPositive": false
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": -1.62,
+          "isPositive": false
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": -1.16,
+          "isPositive": false
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": -3.2,
+          "isPositive": false
+        },
+        "price": 0.003737323719223345,
+        "highestPrice": 0.003944897275873612
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "3363710076900869431450",
+      "amount1": "-3867944007076416"
+    },
+    "timestamp": "2025-07-16T14:43:32.178Z"
+  },
+  {
+    "tokenIn": "WETH",
+    "tokenOut": "NATIVE",
+    "amountIn": "0.003867944007076416",
+    "amountOutMinimum": "177413.343343781831208616",
+    "poolAddress": "0x4cd15f2BC9533Bf6faC4ae33C649f138CB601935",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "11281530118547487416567228",
+      "actualPrice": 49320009.67555888,
+      "token0IsInput": false
+    },
+    "apiPrice": 0.00006596624600138071,
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 1.99,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 3.08,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0.02,
+          "isPositive": true
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 2.29,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 1.39,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0.46,
+          "isPositive": true
+        },
+        "price": 0.00006596624600138071,
+        "highestPrice": 0.00007058223484929242
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "-188854430367221310920464",
+      "amount1": "3867944007076416"
+    },
+    "timestamp": "2025-07-16T15:04:00.293Z"
+  },
+  {
+    "tokenIn": "NATIVE",
+    "tokenOut": "WETH",
+    "amountIn": "188854.430367221310920464",
+    "amountOutMinimum": "0.003624040960896492",
+    "poolAddress": "0x4cd15f2BC9533Bf6faC4ae33C649f138CB601935",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "11380754880143105597786600",
+      "actualPrice": 2.0633978403079416e-8,
+      "token0IsInput": true
+    },
+    "apiPrice": 0.00006797089464281091,
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 1.28,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 4.44,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0.04,
+          "isPositive": true
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 4.28,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 5.77,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": -2.7,
+          "isPositive": false
+        },
+        "price": 0.00006797089464281091,
+        "highestPrice": 0.00007058223484929242
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "188854430367221310920464",
+      "amount1": "-3857749377713004"
+    },
+    "timestamp": "2025-07-16T17:23:12.755Z"
+  },
+  {
+    "tokenIn": "WETH",
+    "tokenOut": "NOICE",
+    "amountIn": "0.003857749377713004",
+    "amountOutMinimum": "68453.154514072739402764",
+    "poolAddress": "0xeFF7f8Fe083d7a446717B992bf84391253e54789",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "346073095635657879769174046693697",
+      "actualPrice": 19079918.180658475,
+      "token0IsInput": true
+    },
+    "apiPrice": 0.00017237774174467136,
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 0.33,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 4.17,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0.35,
+          "isPositive": true
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 1.63,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": -10.52,
+          "isPositive": false
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": -0.14,
+          "isPositive": false
+        },
+        "price": 0.00017237774174467136,
+        "highestPrice": 0.0001933643199642388
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "3857749377713004",
+      "amount1": "-72868788745771347033246"
+    },
+    "timestamp": "2025-07-16T17:43:45.312Z"
+  },
+  {
+    "tokenIn": "NOICE",
+    "tokenOut": "WETH",
+    "amountIn": "72868.788745771347033246",
+    "amountOutMinimum": "0.003698763143232998",
+    "poolAddress": "0xeFF7f8Fe083d7a446717B992bf84391253e54789",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "339127940617465925444902566647242",
+      "actualPrice": 5.4579810349514105e-8,
+      "token0IsInput": false
+    },
+    "apiPrice": 0.00018144229746415704,
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 1.59,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 6.13,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0.1,
+          "isPositive": true
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 4.95,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": -3.31,
+          "isPositive": false
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": -5.52,
+          "isPositive": false
+        },
+        "price": 0.00018144229746415704,
+        "highestPrice": 0.0001933643199642388
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "-3937354194024555",
+      "amount1": "72868788745771347033246"
+    },
+    "timestamp": "2025-07-16T18:19:58.583Z"
+  },
+  {
+    "tokenIn": "WETH",
+    "tokenOut": "NOICE",
+    "amountIn": "0.003937354194024555",
+    "amountOutMinimum": "68417.974757137897540815",
+    "poolAddress": "0xeFF7f8Fe083d7a446717B992bf84391253e54789",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "342468770362169686379714184886527",
+      "actualPrice": 18684555.965086892,
+      "token0IsInput": true
+    },
+    "apiPrice": 0.0001795716830120071,
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 2.28,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 6.47,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0.15,
+          "isPositive": true
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 3.75,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": -3.26,
+          "isPositive": false
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0.14,
+          "isPositive": true
+        },
+        "price": 0.0001795716830120071,
+        "highestPrice": 0.00019047344231653207
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "3937354194024555",
+      "amount1": "-72831331569298006233704"
+    },
+    "timestamp": "2025-07-16T18:40:27.182Z"
+  },
+  {
+    "tokenIn": "NOICE",
+    "tokenOut": "WETH",
+    "amountIn": "72831.331569298006233704",
+    "amountOutMinimum": "0.003610868886553688",
+    "poolAddress": "0xeFF7f8Fe083d7a446717B992bf84391253e54789",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "343142351858935109870671355083142",
+      "actualPrice": 5.331022560022953e-8,
+      "token0IsInput": false
+    },
+    "apiPrice": 0.0001801675900006469,
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 1.44,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 6.43,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0.24,
+          "isPositive": true
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 2.46,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 0.69,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": -5.42,
+          "isPositive": false
+        },
+        "price": 0.0001801675900006469,
+        "highestPrice": 0.00019047344231653207
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "-3843790800520101",
+      "amount1": "72831331569298006233704"
+    },
+    "timestamp": "2025-07-16T20:03:59.763Z"
+  },
+  {
+    "tokenIn": "WETH",
+    "tokenOut": "HIGHER",
+    "amountIn": "0.003843790800520101",
+    "amountOutMinimum": "2565.036114372373049264",
+    "poolAddress": "0xCC28456d4Ff980CeE3457Ca809a257E52Cd9CDb0",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "93530700597887117587982974",
+      "actualPrice": 717547.7261702954,
+      "token0IsInput": false
+    },
+    "apiPrice": 0.004763605615264899,
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 1.96,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 7.13,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0.08,
+          "isPositive": true
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 12.53,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 24.93,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0.38,
+          "isPositive": true
+        },
+        "price": 0.004763605615264899,
+        "highestPrice": 0.004817889145556031
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "-2730071343365876644707",
+      "amount1": "3843790800520101"
+    },
+    "timestamp": "2025-07-16T20:24:28.270Z"
+  },
+  {
+    "tokenIn": "HIGHER",
+    "tokenOut": "WETH",
+    "amountIn": "2730.071343365876644707",
+    "amountOutMinimum": "0.00348630900808845",
+    "poolAddress": "0xCC28456d4Ff980CeE3457Ca809a257E52Cd9CDb0",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "92839768812993112555228604",
+      "actualPrice": 0.0000013731213921004023,
+      "token0IsInput": true
+    },
+    "apiPrice": 0.00463811415933139,
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": -0.5,
+          "isPositive": false
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 3.84,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0.13,
+          "isPositive": true
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 3.01,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 20.66,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": -1.56,
+          "isPositive": false
+        },
+        "price": 0.00463811415933139,
+        "highestPrice": 0.004817889145556031
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "2730071343365876644707",
+      "amount1": "-3710741330453529"
+    },
+    "timestamp": "2025-07-16T21:11:14.018Z"
+  },
+  {
+    "tokenIn": "WETH",
+    "tokenOut": "NATIVE",
+    "amountIn": "0.003710741330453529",
+    "amountOutMinimum": "169742.132934788678539917",
+    "poolAddress": "0x4cd15f2BC9533Bf6faC4ae33C649f138CB601935",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "11296829424143870188836441",
+      "actualPrice": 49186511.8736848,
+      "token0IsInput": false
+    },
+    "apiPrice": 0.0000687242020419611,
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 0.23,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 4.48,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0.31,
+          "isPositive": true
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 0.95,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 5.43,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0.05,
+          "isPositive": true
+        },
+        "price": 0.0000687242020419611,
+        "highestPrice": 0.0000687242020419611
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "-180688714581305536731293",
+      "amount1": "3710741330453529"
+    },
+    "timestamp": "2025-07-16T22:06:27.258Z"
+  },
+  {
+    "tokenIn": "NATIVE",
+    "tokenOut": "WETH",
+    "amountIn": "180688.714581305536731293",
+    "amountOutMinimum": "0.003290071231434697",
+    "poolAddress": "0x4cd15f2BC9533Bf6faC4ae33C649f138CB601935",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "11086009480484984189815540",
+      "actualPrice": 1.9579036852081877e-8,
+      "token0IsInput": true
+    },
+    "apiPrice": 0.00006606879895987983,
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": -0.58,
+          "isPositive": false
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 4,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": -0.23,
+          "isPositive": false
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": -3.29,
+          "isPositive": false
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 1.4,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": -1.38,
+          "isPositive": false
+        },
+        "price": 0.00006606879895987983,
+        "highestPrice": 0.0000687242020419611
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "180688714581305536731293",
+      "amount1": "-3502248708485766"
+    },
+    "timestamp": "2025-07-16T22:32:10.752Z"
+  },
+  {
+    "tokenIn": "WETH",
+    "tokenOut": "NOICE",
+    "amountIn": "0.003502248708485766",
+    "amountOutMinimum": "75180.738298399723134935",
+    "poolAddress": "0xeFF7f8Fe083d7a446717B992bf84391253e54789",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "380643055357594311392780969495855",
+      "actualPrice": 23082170.992253195,
+      "token0IsInput": true
+    },
+    "apiPrice": 0.00014568228054533816,
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 0.3,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 2.3,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0.2,
+          "isPositive": true
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 1.59,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": -15.93,
+          "isPositive": false
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 1.92,
+          "isPositive": true
+        },
+        "price": 0.00014568228054533816,
+        "highestPrice": 0.00015755374925301155
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "3502248708485766",
+      "amount1": "-80030323800741029052021"
+    },
+    "timestamp": "2025-07-16T23:45:07.592Z"
+  },
+  {
+    "tokenIn": "NOICE",
+    "tokenOut": "WETH",
+    "amountIn": "80030.323800741029052021",
+    "amountOutMinimum": "0.003285762370367658",
+    "poolAddress": "0xeFF7f8Fe083d7a446717B992bf84391253e54789",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "377077196246527241000923501846870",
+      "actualPrice": 4.414673900853214e-8,
+      "token0IsInput": false
+    },
+    "apiPrice": 0.0001492038383444471,
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 0.41,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 1.14,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": -0.05,
+          "isPositive": false
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 5.72,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": -18.06,
+          "isPositive": false
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": -0.74,
+          "isPositive": false
+        },
+        "price": 0.0001492038383444471,
+        "highestPrice": 0.00015755374925301155
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "-3497712026691988",
+      "amount1": "80030323800741029052021"
+    },
+    "timestamp": "2025-07-17T00:37:09.074Z"
+  },
+  {
+    "tokenIn": "WETH",
+    "tokenOut": "NATIVE",
+    "amountIn": "0.003497712026691988",
+    "amountOutMinimum": "181292.843027685827109963",
+    "poolAddress": "0x4cd15f2BC9533Bf6faC4ae33C649f138CB601935",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "10612623406423432203043013",
+      "actualPrice": 55733159.10582573,
+      "token0IsInput": false
+    },
+    "apiPrice": 0.000060900061846815866,
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 0.53,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 1.6,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0.02,
+          "isPositive": true
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 5.65,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": -9.73,
+          "isPositive": false
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0.35,
+          "isPositive": true
+        },
+        "price": 0.000060900061846815866,
+        "highestPrice": 0.000060900061846815866
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "-192984287642259097851614",
+      "amount1": "3497712026691988"
+    },
+    "timestamp": "2025-07-17T00:57:41.932Z"
+  },
+  {
+    "tokenIn": "NATIVE",
+    "tokenOut": "WETH",
+    "amountIn": "192984.287642259097851614",
+    "amountOutMinimum": "0.003190306525190884",
+    "poolAddress": "0x4cd15f2BC9533Bf6faC4ae33C649f138CB601935",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "10563147397949033603683520",
+      "actualPrice": 1.7775732759240342e-8,
+      "token0IsInput": true
+    },
+    "apiPrice": 0.00005981603022574721,
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": -0.83,
+          "isPositive": false
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 0.03,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": -0.44,
+          "isPositive": false
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": -1.36,
+          "isPositive": false
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": -11.88,
+          "isPositive": false
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": -0.93,
+          "isPositive": false
+        },
+        "price": 0.00005981603022574721,
+        "highestPrice": 0.000060900061846815866
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "192984287642259097851614",
+      "amount1": "-3396048344754744"
+    },
+    "timestamp": "2025-07-17T01:34:00.038Z"
+  },
+  {
+    "tokenIn": "WETH",
+    "tokenOut": "QR",
+    "amountIn": "0.003396048344754744",
+    "amountOutMinimum": "317134.868175608979072422",
+    "poolAddress": "0xF02C421e15ABDF2008Bb6577336B0F3D7aeC98F0",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "7906531270737989822147560",
+      "actualPrice": 100412361.65678193,
+      "token0IsInput": false
+    },
+    "apiPrice": 0.00003336693940845023,
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 0.72,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": -1.22,
+          "isPositive": false
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0.22,
+          "isPositive": true
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 0.89,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": -10.54,
+          "isPositive": false
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0.15,
+          "isPositive": true
+        },
+        "price": 0.00003336693940845023,
+        "highestPrice": 0.00003336693940845023
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "-337583827943724837837606",
+      "amount1": "3396048344754744"
+    },
+    "timestamp": "2025-07-17T02:57:26.648Z"
+  },
+  {
+    "tokenIn": "QR",
+    "tokenOut": "WETH",
+    "amountIn": "337583.827943724837837606",
+    "amountOutMinimum": "0.003125418050682599",
+    "poolAddress": "0xF02C421e15ABDF2008Bb6577336B0F3D7aeC98F0",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "7904990471470639971189159",
+      "actualPrice": 9.955052026919584e-9,
+      "token0IsInput": true
+    },
+    "apiPrice": 0.00003307484449315145,
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": -1.02,
+          "isPositive": false
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": -1.64,
+          "isPositive": false
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": -0.52,
+          "isPositive": false
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": -1.3,
+          "isPositive": false
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": -10.43,
+          "isPositive": false
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": -0.48,
+          "isPositive": false
+        },
+        "price": 0.00003307484449315145,
+        "highestPrice": 0.00003336693940845023
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "337583827943724837837606",
+      "amount1": "-3326947170548585"
+    },
+    "timestamp": "2025-07-17T03:28:25.601Z"
+  },
+  {
+    "tokenIn": "WETH",
+    "tokenOut": "NOICE",
+    "amountIn": "0.003326947170548585",
+    "amountOutMinimum": "75441.978214046393986791",
+    "poolAddress": "0xeFF7f8Fe083d7a446717B992bf84391253e54789",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "391220578594388668248496121924279",
+      "actualPrice": 24382835.832164492,
+      "token0IsInput": true
+    },
+    "apiPrice": 0.00013485911691959646,
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 0.67,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": -0.98,
+          "isPositive": false
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0.14,
+          "isPositive": true
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 2.8,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": -22.73,
+          "isPositive": false
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 1.15,
+          "isPositive": true
+        },
+        "price": 0.00013485911691959646,
+        "highestPrice": 0.00015776031876304854
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "3326947170548585",
+      "amount1": "-80308431627293659776038"
+    },
+    "timestamp": "2025-07-17T04:36:11.869Z"
+  },
+  {
+    "tokenIn": "NOICE",
+    "tokenOut": "WETH",
+    "amountIn": "80308.431627293659776038",
+    "amountOutMinimum": "0.003167245898264491",
+    "poolAddress": "0xeFF7f8Fe083d7a446717B992bf84391253e54789",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "384734151729619717055884215989645",
+      "actualPrice": 4.240701358267581e-8,
+      "token0IsInput": false
+    },
+    "apiPrice": 0.000146671436612947,
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 0.34,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 3.65,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0.07,
+          "isPositive": true
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": -6.52,
+          "isPositive": false
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 10.98,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": -2.24,
+          "isPositive": false
+        },
+        "price": 0.000146671436612947,
+        "highestPrice": 0.00015776031876304854
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "-3371554004972480",
+      "amount1": "80308431627293659776038"
+    },
+    "timestamp": "2025-07-17T09:13:43.922Z"
+  },
+  {
+    "tokenIn": "WETH",
+    "tokenOut": "QR",
+    "amountIn": "0.00337155400497248",
+    "amountOutMinimum": "318999.889440813683904707",
+    "poolAddress": "0xF02C421e15ABDF2008Bb6577336B0F3D7aeC98F0",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "7854903464707691256727275",
+      "actualPrice": 101736657.13242112,
+      "token0IsInput": false
+    },
+    "apiPrice": 0.00003408801533189266,
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 0.87,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 3.82,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0.05,
+          "isPositive": true
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 1.16,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 2.66,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0.11,
+          "isPositive": true
+        },
+        "price": 0.00003408801533189266,
+        "highestPrice": 0.00003448426363711552
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "-339569114238281920871165",
+      "amount1": "3371554004972480"
+    },
+    "timestamp": "2025-07-17T09:34:15.794Z"
+  },
+  {
+    "tokenIn": "QR",
+    "tokenOut": "WETH",
+    "amountIn": "339569.114238281920871165",
+    "amountOutMinimum": "0.003085269997230867",
+    "poolAddress": "0xF02C421e15ABDF2008Bb6577336B0F3D7aeC98F0",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "7831060992721746695157056",
+      "actualPrice": 9.769718391851163e-9,
+      "token0IsInput": true
+    },
+    "apiPrice": 0.000033056506135928345,
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": -1.31,
+          "isPositive": false
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": -1.37,
+          "isPositive": false
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": -0.97,
+          "isPositive": false
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": -1.28,
+          "isPositive": false
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": -2.1,
+          "isPositive": false
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": -0.67,
+          "isPositive": false
+        },
+        "price": 0.000033056506135928345,
+        "highestPrice": 0.00003448426363711552
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "339569114238281920871165",
+      "amount1": "-3284210728345477"
+    },
+    "timestamp": "2025-07-17T13:45:31.548Z"
+  },
+  {
+    "tokenIn": "WETH",
+    "tokenOut": "NATIVE",
+    "amountIn": "0.003284210728345477",
+    "amountOutMinimum": "209201.10220421347185038",
+    "poolAddress": "0x4cd15f2BC9533Bf6faC4ae33C649f138CB601935",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "9573143777740184749843096",
+      "actualPrice": 68493601.76053165,
+      "token0IsInput": false
+    },
+    "apiPrice": 0.00004998987224228477,
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 1.19,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": -0.16,
+          "isPositive": false
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0.2,
+          "isPositive": true
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 1.04,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": -11.44,
+          "isPositive": false
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0,
+          "isPositive": true
+        },
+        "price": 0.00004998987224228477,
+        "highestPrice": 0.00005132953454912796
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "-222692056646115116484918",
+      "amount1": "3284210728345477"
+    },
+    "timestamp": "2025-07-17T14:53:12.242Z"
+  },
+  {
+    "tokenIn": "NATIVE",
+    "tokenOut": "WETH",
+    "amountIn": "222692.056646115116484918",
+    "amountOutMinimum": "0.003104773561943326",
+    "poolAddress": "0x4cd15f2BC9533Bf6faC4ae33C649f138CB601935",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "9700647245563017807126782",
+      "actualPrice": 1.4991402234625798e-8,
+      "token0IsInput": true
+    },
+    "apiPrice": 0.000050728585354753316,
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": -1.04,
+          "isPositive": false
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": -2.55,
+          "isPositive": false
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": -0.51,
+          "isPositive": false
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 1.17,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": -8.1,
+          "isPositive": false
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": -0.51,
+          "isPositive": false
+        },
+        "price": 0.000050728585354753316,
+        "highestPrice": 0.00005132953454912796
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "222692056646115116484918",
+      "amount1": "-3304993830654555"
+    },
+    "timestamp": "2025-07-17T16:32:25.695Z"
+  },
+  {
+    "tokenIn": "WETH",
+    "tokenOut": "NATIVE",
+    "amountIn": "0.003304993830654555",
+    "amountOutMinimum": "199088.99369549035327509",
+    "poolAddress": "0x4cd15f2BC9533Bf6faC4ae33C649f138CB601935",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "9844252823311450469037754",
+      "actualPrice": 64772945.95341106,
+      "token0IsInput": false
+    },
+    "apiPrice": 0.000052819543063590974,
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 0.68,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": -0.37,
+          "isPositive": false
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0.54,
+          "isPositive": true
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 3.81,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": -3.12,
+          "isPositive": false
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0.46,
+          "isPositive": true
+        },
+        "price": 0.000052819543063590974,
+        "highestPrice": 0.000055338738196233285
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "-211927958961135516305839",
+      "amount1": "3304993830654555"
+    },
+    "timestamp": "2025-07-17T17:50:36.049Z"
+  },
+  {
+    "tokenIn": "NATIVE",
+    "tokenOut": "WETH",
+    "amountIn": "211927.958961135516305839",
+    "amountOutMinimum": "0.003066313779737893",
+    "poolAddress": "0x4cd15f2BC9533Bf6faC4ae33C649f138CB601935",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "9882169053113625935765374",
+      "actualPrice": 1.5557699924438265e-8,
+      "token0IsInput": true
+    },
+    "apiPrice": 0.0000540465953489634,
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": -0.94,
+          "isPositive": false
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 1.6,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0.19,
+          "isPositive": true
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": -2.33,
+          "isPositive": false
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 0.53,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": -1.16,
+          "isPositive": false
+        },
+        "price": 0.0000540465953489634,
+        "highestPrice": 0.000055338738196233285
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "211927958961135516305839",
+      "amount1": "-3264056507171772"
+    },
+    "timestamp": "2025-07-18T00:23:28.526Z"
+  },
+  {
+    "tokenIn": "WETH",
+    "tokenOut": "NOICE",
+    "amountIn": "0.003264056507171772",
+    "amountOutMinimum": "88527.020954511026502587",
+    "poolAddress": "0xeFF7f8Fe083d7a446717B992bf84391253e54789",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "427855579772019922006970824413030",
+      "actualPrice": 29163203.793569624,
+      "token0IsInput": true
+    },
+    "apiPrice": 0.000119945224915158,
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 0.56,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 2.06,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0.18,
+          "isPositive": true
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 0.58,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 12.28,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0.11,
+          "isPositive": true
+        },
+        "price": 0.000119945224915158,
+        "highestPrice": 0.00014200488837234538
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "3264056507171772",
+      "amount1": "-94237475185033523386498"
+    },
+    "timestamp": "2025-07-18T00:43:57.869Z"
+  },
+  {
+    "tokenIn": "NOICE",
+    "tokenOut": "WETH",
+    "amountIn": "94237.475185033523386498",
+    "amountOutMinimum": "0.00324162326593198",
+    "poolAddress": "0xeFF7f8Fe083d7a446717B992bf84391253e54789",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "411956736125892915299293561613476",
+      "actualPrice": 3.6987582786324454e-8,
+      "token0IsInput": false
+    },
+    "apiPrice": 0.00013363038907947877,
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 1.18,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 6.93,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0.4,
+          "isPositive": true
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 3.53,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 17.61,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": -5.45,
+          "isPositive": false
+        },
+        "price": 0.00013363038907947877,
+        "highestPrice": 0.00014200488837234538
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "-3450576857678374",
+      "amount1": "94237475185033523386498"
+    },
+    "timestamp": "2025-07-18T02:28:33.231Z"
+  },
+  {
+    "tokenIn": "WETH",
+    "tokenOut": "NATIVE",
+    "amountIn": "0.003450576857678374",
+    "amountOutMinimum": "203372.95562514488119632",
+    "poolAddress": "0x4cd15f2BC9533Bf6faC4ae33C649f138CB601935",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "9952227853383459189401928",
+      "actualPrice": 63375083.78049158,
+      "token0IsInput": false
+    },
+    "apiPrice": 0.000056868537095956995,
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 0.06,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 5.69,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0.31,
+          "isPositive": true
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 1.56,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 6.02,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0,
+          "isPositive": true
+        },
+        "price": 0.000056868537095956995,
+        "highestPrice": 0.00005885380389633098
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "-216488004116227336450589",
+      "amount1": "3450576857678374"
+    },
+    "timestamp": "2025-07-18T02:54:16.255Z"
+  },
+  {
+    "tokenIn": "NATIVE",
+    "tokenOut": "WETH",
+    "amountIn": "216488.004116227336450589",
+    "amountOutMinimum": "0.003260353807089868",
+    "poolAddress": "0x4cd15f2BC9533Bf6faC4ae33C649f138CB601935",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "10082159341968677743000494",
+      "actualPrice": 1.6193769239679922e-8,
+      "token0IsInput": true
+    },
+    "apiPrice": 0.00005873369152169414,
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": -0.68,
+          "isPositive": false
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 1.5,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": -0.2,
+          "isPositive": false
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 0.8,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 4.98,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": -0.21,
+          "isPositive": false
+        },
+        "price": 0.00005873369152169414,
+        "highestPrice": 0.00005885380389633098
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "216488004116227336450589",
+      "amount1": "-3470606858226859"
+    },
+    "timestamp": "2025-07-18T07:42:22.303Z"
+  },
+  {
+    "tokenIn": "WETH",
+    "tokenOut": "QR",
+    "amountIn": "0.003470606858226859",
+    "amountOutMinimum": "366287.551268837996758521",
+    "poolAddress": "0xF02C421e15ABDF2008Bb6577336B0F3D7aeC98F0",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "7437255283799933183898251",
+      "actualPrice": 113483779.09064755,
+      "token0IsInput": false
+    },
+    "apiPrice": 0.000031808727481434635,
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 0.08,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 0.52,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0.45,
+          "isPositive": true
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 0.19,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": -2.72,
+          "isPositive": false
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0,
+          "isPositive": true
+        },
+        "price": 0.000031808727481434635,
+        "highestPrice": 0.00003205520211498918
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "-389904758566136065247958",
+      "amount1": "3470606858226859"
+    },
+    "timestamp": "2025-07-18T09:42:32.880Z"
+  },
+  {
+    "tokenIn": "QR",
+    "tokenOut": "WETH",
+    "amountIn": "389904.758566136065247958",
+    "amountOutMinimum": "0.003172405752343894",
+    "poolAddress": "0xF02C421e15ABDF2008Bb6577336B0F3D7aeC98F0",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "7410597166420946835525260",
+      "actualPrice": 8.748774940730379e-9,
+      "token0IsInput": true
+    },
+    "apiPrice": 0.000031522280233799586,
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": -0.68,
+          "isPositive": false
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": -0.66,
+          "isPositive": false
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": -0.68,
+          "isPositive": false
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": -0.96,
+          "isPositive": false
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": -1.44,
+          "isPositive": false
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": -0.41,
+          "isPositive": false
+        },
+        "price": 0.000031522280233799586,
+        "highestPrice": 0.00003205520211498918
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "389904758566136065247958",
+      "amount1": "-3376955369212816"
+    },
+    "timestamp": "2025-07-18T14:25:20.684Z"
+  },
+  {
+    "tokenIn": "WETH",
+    "tokenOut": "HIGHER",
+    "amountIn": "0.003376955369212816",
+    "amountOutMinimum": "2826.607703019387372478",
+    "poolAddress": "0xCC28456d4Ff980CeE3457Ca809a257E52Cd9CDb0",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "83512397052812906451607852",
+      "actualPrice": 900030.5864968279,
+      "token0IsInput": false
+    },
+    "apiPrice": 0.003999596274140961,
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 0.77,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": -1.22,
+          "isPositive": false
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0.16,
+          "isPositive": true
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 3.97,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": -4.46,
+          "isPositive": false
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": -0.03,
+          "isPositive": false
+        },
+        "price": 0.003999596274140961,
+        "highestPrice": 0.00404565391467941
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "-3008559231712863193537",
+      "amount1": "3376955369212816"
+    },
+    "timestamp": "2025-07-18T16:25:34.117Z"
+  },
+  {
+    "tokenIn": "HIGHER",
+    "tokenOut": "WETH",
+    "amountIn": "3008.559231712863193537",
+    "amountOutMinimum": "0.003116407210996108",
+    "poolAddress": "0xCC28456d4Ff980CeE3457Ca809a257E52Cd9CDb0",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "83615333572357018525770351",
+      "actualPrice": 0.0000011138140344296722,
+      "token0IsInput": true
+    },
+    "apiPrice": 0.004030559899985078,
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": -0.81,
+          "isPositive": false
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": -0.33,
+          "isPositive": false
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": -0.43,
+          "isPositive": false
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 0.11,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": -1.13,
+          "isPositive": false
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": -0.29,
+          "isPositive": false
+        },
+        "price": 0.004030559899985078,
+        "highestPrice": 0.00404565391467941
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "3008559231712863193537",
+      "amount1": "-3317017451992306"
+    },
+    "timestamp": "2025-07-18T18:36:12.022Z"
+  },
+  {
+    "tokenIn": "WETH",
+    "tokenOut": "NOICE",
+    "amountIn": "0.003317017451992306",
+    "amountOutMinimum": "96045.231127076753182337",
+    "poolAddress": "0xeFF7f8Fe083d7a446717B992bf84391253e54789",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "442081289343188683384997982454648",
+      "actualPrice": 31134729.78868279,
+      "token0IsInput": true
+    },
+    "apiPrice": 0.00011397755502391806,
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 0.68,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": -0.84,
+          "isPositive": false
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0.25,
+          "isPositive": true
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 4.69,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 4.31,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0.93,
+          "isPositive": true
+        },
+        "price": 0.00011397755502391806,
+        "highestPrice": 0.00011629060187436851
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "3317017451992306",
+      "amount1": "-102240465487967326169414"
+    },
+    "timestamp": "2025-07-18T21:18:23.710Z"
+  },
+  {
+    "tokenIn": "NOICE",
+    "tokenOut": "WETH",
+    "amountIn": "102240.465487967326169414",
+    "amountOutMinimum": "0.002960799080488394",
+    "poolAddress": "0xeFF7f8Fe083d7a446717B992bf84391253e54789",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "448981036772648601399089250202918",
+      "actualPrice": 3.1138893099337676e-8,
+      "token0IsInput": false
+    },
+    "apiPrice": 0.00011008050097387973,
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 0.2,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": -0.68,
+          "isPositive": false
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": -0.25,
+          "isPositive": false
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": -2.67,
+          "isPositive": false
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 3.22,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": -1.98,
+          "isPositive": false
+        },
+        "price": 0.00011008050097387973,
+        "highestPrice": 0.00011629060187436851
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "-3151781349298248",
+      "amount1": "102240465487967326169414"
+    },
+    "timestamp": "2025-07-18T22:10:25.163Z"
+  },
+  {
+    "tokenIn": "WETH",
+    "tokenOut": "NOICE",
+    "amountIn": "0.003151781349298248",
+    "amountOutMinimum": "85421.084383020381210372",
+    "poolAddress": "0xeFF7f8Fe083d7a446717B992bf84391253e54789",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "427703307746495180705658070067500",
+      "actualPrice": 29142449.360990692,
+      "token0IsInput": true
+    },
+    "apiPrice": 0.00012238717838926517,
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 0.63,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": -0.02,
+          "isPositive": false
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0.77,
+          "isPositive": true
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 6.91,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 14.08,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0.37,
+          "isPositive": true
+        },
+        "price": 0.00012238717838926517,
+        "highestPrice": 0.00012368705938198244
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "3151781349298248",
+      "amount1": "-90931163507704589425340"
+    },
+    "timestamp": "2025-07-18T22:30:53.816Z"
+  },
+  {
+    "tokenIn": "NOICE",
+    "tokenOut": "WETH",
+    "amountIn": "90931.16350770458942534",
+    "amountOutMinimum": "0.002835342106939823",
+    "poolAddress": "0xeFF7f8Fe083d7a446717B992bf84391253e54789",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "432687848070439305472310850543964",
+      "actualPrice": 3.352816389994189e-8,
+      "token0IsInput": false
+    },
+    "apiPrice": 0.00011870733716674621,
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": -0.12,
+          "isPositive": false
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": -1.29,
+          "isPositive": false
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": -0.16,
+          "isPositive": false
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": -3.7,
+          "isPositive": false
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 5.82,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0,
+          "isPositive": true
+        },
+        "price": 0.00011870733716674621,
+        "highestPrice": 0.00012368705938198244
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "-3018236277883034",
+      "amount1": "90931163507704589425340"
+    },
+    "timestamp": "2025-07-19T00:52:05.462Z"
+  },
+  {
+    "tokenIn": "WETH",
+    "tokenOut": "NOICE",
+    "amountIn": "0.003018236277883034",
+    "amountOutMinimum": "80254.664413457023329102",
+    "poolAddress": "0xeFF7f8Fe083d7a446717B992bf84391253e54789",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "423639682212913267589870675034071",
+      "actualPrice": 28591312.983459625,
+      "token0IsInput": true
+    },
+    "apiPrice": 0.00012376287706216283,
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 0.92,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 0.19,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0.41,
+          "isPositive": true
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 1.7,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 13.33,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0.76,
+          "isPositive": true
+        },
+        "price": 0.00012376287706216283,
+        "highestPrice": 0.00014460125408787607
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "3018236277883034",
+      "amount1": "-85431461499086777589217"
+    },
+    "timestamp": "2025-07-19T02:20:47.906Z"
+  },
+  {
+    "tokenIn": "NOICE",
+    "tokenOut": "WETH",
+    "amountIn": "85431.461499086777589217",
+    "amountOutMinimum": "0.002915197445683452",
+    "poolAddress": "0xeFF7f8Fe083d7a446717B992bf84391253e54789",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "413614722211503878853804517178702",
+      "actualPrice": 3.669164561079822e-8,
+      "token0IsInput": false
+    },
+    "apiPrice": 0.0001303544521883836,
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 0.06,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": -1.03,
+          "isPositive": false
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0.13,
+          "isPositive": true
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": -8.22,
+          "isPositive": false
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 0.55,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": -8.09,
+          "isPositive": false
+        },
+        "price": 0.0001303544521883836,
+        "highestPrice": 0.00014460125408787607
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "-3103239788265619",
+      "amount1": "85431461499086777589217"
+    },
+    "timestamp": "2025-07-19T10:22:49.784Z"
+  },
+  {
+    "tokenIn": "WETH",
+    "tokenOut": "NOICE",
+    "amountIn": "0.003103239788265619",
+    "amountOutMinimum": "70877.801587962341727689",
+    "poolAddress": "0xeFF7f8Fe083d7a446717B992bf84391253e54789",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "392631881606997002867642914938699",
+      "actualPrice": 24559072.15669086,
+      "token0IsInput": true
+    },
+    "apiPrice": 0.0001449039197588647,
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 0.29,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 0.2,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0.52,
+          "isPositive": true
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 0.93,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 0.86,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0.32,
+          "isPositive": true
+        },
+        "price": 0.0001449039197588647,
+        "highestPrice": 0.000153746530348408
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "3103239788265619",
+      "amount1": "-75449833366187061109763"
+    },
+    "timestamp": "2025-07-19T16:29:29.707Z"
+  },
+  {
+    "tokenIn": "NOICE",
+    "tokenOut": "WETH",
+    "amountIn": "75449.833366187061109763",
+    "amountOutMinimum": "0.002704917919571943",
+    "poolAddress": "0xeFF7f8Fe083d7a446717B992bf84391253e54789",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "403527516890908543902744588894619",
+      "actualPrice": 3.8548977012271263e-8,
+      "token0IsInput": false
+    },
+    "apiPrice": 0.0001439204430928438,
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 0.53,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 2.55,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": -0.02,
+          "isPositive": false
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": -5.09,
+          "isPositive": false
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": -2.13,
+          "isPositive": false
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": -2.12,
+          "isPositive": false
+        },
+        "price": 0.0001439204430928438,
+        "highestPrice": 0.000153746530348408
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "-2879399988714152",
+      "amount1": "75449833366187061109763"
+    },
+    "timestamp": "2025-07-20T12:25:19.507Z"
+  },
+  {
+    "tokenIn": "WETH",
+    "tokenOut": "QR",
+    "amountIn": "0.002879399988714152",
+    "amountOutMinimum": "318864.447123047022614628",
+    "poolAddress": "0xF02C421e15ABDF2008Bb6577336B0F3D7aeC98F0",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "7260541429918009684247955",
+      "actualPrice": 119075153.93844767,
+      "token0IsInput": false
+    },
+    "apiPrice": 0.0000315244583141233,
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 0.49,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 2.57,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0.07,
+          "isPositive": true
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 0.75,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 0.62,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0.09,
+          "isPositive": true
+        },
+        "price": 0.0000315244583141233,
+        "highestPrice": 0.00003263042519157543
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "-339425785628281481365608",
+      "amount1": "2879399988714152"
+    },
+    "timestamp": "2025-07-20T13:24:17.872Z"
+  },
+  {
+    "tokenIn": "QR",
+    "tokenOut": "WETH",
+    "amountIn": "339425.785628281481365608",
+    "amountOutMinimum": "0.00262126870175925",
+    "poolAddress": "0xF02C421e15ABDF2008Bb6577336B0F3D7aeC98F0",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "7219738448207591292075575",
+      "actualPrice": 8.303931568717198e-9,
+      "token0IsInput": true
+    },
+    "apiPrice": 0.00003096790829378364,
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": -0.49,
+          "isPositive": false
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": -0.69,
+          "isPositive": false
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": -0.18,
+          "isPositive": false
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": -0.43,
+          "isPositive": false
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": -3.37,
+          "isPositive": false
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": -0.15,
+          "isPositive": false
+        },
+        "price": 0.00003096790829378364,
+        "highestPrice": 0.00003263042519157543
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "339425785628281481365608",
+      "amount1": "-2790297344729663"
+    },
+    "timestamp": "2025-07-21T00:20:10.212Z"
+  },
+  {
+    "tokenIn": "WETH",
+    "tokenOut": "QR",
+    "amountIn": "0.002790297344729663",
+    "amountOutMinimum": "316292.259388804144691676",
+    "poolAddress": "0xF02C421e15ABDF2008Bb6577336B0F3D7aeC98F0",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "7176323684975426849697173",
+      "actualPrice": 121886366.08433779,
+      "token0IsInput": false
+    },
+    "apiPrice": 0.00003063224178832601,
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 0.28,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": 0.25,
+          "isPositive": true
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0.37,
+          "isPositive": true
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": 0.75,
+          "isPositive": true
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": -3.03,
+          "isPositive": false
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": 0,
+          "isPositive": true
+        },
+        "price": 0.00003063224178832601,
+        "highestPrice": 0.0000314027833618103
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "-336687940531007282032890",
+      "amount1": "2790297344729663"
+    },
+    "timestamp": "2025-07-21T02:24:51.257Z"
+  },
+  {
+    "tokenIn": "QR",
+    "tokenOut": "WETH",
+    "amountIn": "336687.94053100728203289",
+    "amountOutMinimum": "0.002555633315635168",
+    "poolAddress": "0xF02C421e15ABDF2008Bb6577336B0F3D7aeC98F0",
+    "fee": 10000,
+    "price": {
+      "sqrtPriceX96": "7157701772074612537766122",
+      "actualPrice": 8.161839144511494e-9,
+      "token0IsInput": true
+    },
+    "apiPrice": 0.00003093550473766562,
+    "context": {
+      "wethPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": -0.55,
+          "isPositive": false
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": -0.19,
+          "isPositive": false
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": -0.62,
+          "isPositive": false
+        }
+      },
+      "tokenPriceChanges": {
+        "1h": {
+          "timeframe": "1h",
+          "percentage": -1.04,
+          "isPositive": false
+        },
+        "6h": {
+          "timeframe": "6h",
+          "percentage": -0.62,
+          "isPositive": false
+        },
+        "5m": {
+          "timeframe": "5m",
+          "percentage": -0.49,
+          "isPositive": false
+        },
+        "price": 0.00003093550473766562,
+        "highestPrice": 0.0000314027833618103
+      }
+    },
+    "actualAmountOut": {
+      "amount0": "336687940531007282032890",
+      "amount1": "-2720430939919404"
+    },
+    "timestamp": "2025-07-21T13:06:19.706Z"
   }
 ]

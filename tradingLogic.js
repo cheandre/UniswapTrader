@@ -304,10 +304,10 @@ async function executeTradingStrategy2(walletAddress) {
           if (!tokenPriceData) continue;
           
           const token1hChange = tokenPriceData.priceChanges.find(c => c.timeframe === '1h');
-          
+          const token6hChange = tokenPriceData.priceChanges.find(c => c.timeframe === '6h');
           if (token1hChange && token1hChange.isPositive && 
-              token1hChange.percentage >= 1.5 && 
-              token1hChange.percentage < 15) {
+              //token1hChange.percentage >= 1.5 && 
+              token1hChange.percentage < 10 && token6hChange.percentage < 20) {
             
             if (token1hChange.percentage > highestVariation) {
               highestVariation = token1hChange.percentage;
@@ -358,11 +358,13 @@ async function executeTradingStrategy2(walletAddress) {
         // 3.2 Check exit conditions
         const { entryPrice, highestPrice } = getEntryAndHighestPriceFromTrades(currentTokenHolding.symbol, tokenPriceData.price);
         const priceDropFromHigh = highestPrice ? ((tokenPriceData.price - highestPrice) / highestPrice) * 100 : 0;
+        const priceDropFromEntry = entryPrice ? ((tokenPriceData.price - entryPrice) / entryPrice) * 100 : 0;
         const exitCondition1 = !weth1hChange.isPositive && weth1hChange.percentage < -0.5 && token5mChange.percentage <= -0.2;
-        const exitConditionTrailing = highestPrice && priceDropFromHigh <= -3;
+        const exitConditionTrailing = highestPrice && priceDropFromHigh <= -5;
+        const exitConditionEntry = entryPrice && priceDropFromEntry <= -3;
 
-        if (exitCondition1 || exitConditionTrailing) {
-          console.log(`Exit condition met. WETH 1h: ${weth1hChange.percentage}%, Token entry price: ${entryPrice}, highest price: ${highestPrice}, current price: ${tokenPriceData.price}, drop from high: ${priceDropFromHigh.toFixed(2)}%`);
+        if (exitCondition1 || exitConditionTrailing || exitConditionEntry) {
+          console.log(`Exit condition met. WETH 1h: ${weth1hChange.percentage}%, Token entry price: ${entryPrice}, highest price: ${highestPrice}, current price: ${tokenPriceData.price}, drop from high: ${priceDropFromHigh.toFixed(2)}%, drop from entry: ${priceDropFromEntry.toFixed(2)}%`);
           const priceChanges = {
             wethPriceChanges: {
               '1h': weth1hChange,

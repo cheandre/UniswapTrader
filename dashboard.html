@@ -50,45 +50,36 @@
           t1.tokenOut !== 'WETH'
         ) {
           const wethIn = parseFloat(t1.amountIn);
-          
-          // Determine which amount field contains WETH in the sell transaction
           let wethOut = null;
           if (t2.actualAmountOut) {
-            // Check if WETH is amount0 or amount1 in the sell transaction
-            // If amount0 is negative and amount1 is positive, WETH is amount0
-            // If amount0 is positive and amount1 is negative, WETH is amount1
             const amount0Wei = parseFloat(t2.actualAmountOut.amount0);
             const amount1Wei = parseFloat(t2.actualAmountOut.amount1);
-            
             if (amount0Wei < 0 && amount1Wei > 0) {
-              // WETH is amount0 (first token in pool)
               wethOut = Math.abs(amount0Wei) / Math.pow(10, 18);
             } else if (amount0Wei > 0 && amount1Wei < 0) {
-              // WETH is amount1 (second token in pool)
               wethOut = Math.abs(amount1Wei) / Math.pow(10, 18);
             } else {
-              // fallback to amountOutMinimum
               wethOut = parseFloat(t2.amountOutMinimum);
             }
           } else {
-            // fallback to amountOutMinimum
             wethOut = parseFloat(t2.amountOutMinimum);
           }
-          
-          // Debug logging with more details
-          console.log(`Transaction ${t1.tokenOut}:`);
-          console.log(`  t1 (buy): ${t1.tokenIn} -> ${t1.tokenOut}, amountIn: ${t1.amountIn}, amount0: ${t1.actualAmountOut ? t1.actualAmountOut.amount0 : 'N/A'}, amount1: ${t1.actualAmountOut ? t1.actualAmountOut.amount1 : 'N/A'}`);
-          console.log(`  t2 (sell): ${t2.tokenIn} -> ${t2.tokenOut}, amountIn: ${t2.amountIn}, amount0: ${t2.actualAmountOut ? t2.actualAmountOut.amount0 : 'N/A'}, amount1: ${t2.actualAmountOut ? t2.actualAmountOut.amount1 : 'N/A'}`);
-          console.log(`  WETH in: ${wethIn}`);
-          console.log(`  WETH out: ${wethOut}`);
-          console.log(`  t2 tokenIn: ${t2.tokenIn}, t2 tokenOut: ${t2.tokenOut}`);
-          console.log(`  Profit/Loss: ${((wethOut - wethIn) / wethIn) * 100}%`);
-          
+
+          // Get entry and exit prices in USD
+          const entryPrice = t1.apiPrice || (t1.context && t1.context.tokenPriceChanges && t1.context.tokenPriceChanges.price);
+          const exitPrice = t2.apiPrice || (t2.context && t2.context.tokenPriceChanges && t2.context.tokenPriceChanges.price);
+          // Calculate % change in apiPrice
+          let priceChangePct = 0;
+          if (typeof entryPrice === 'number' && typeof exitPrice === 'number' && entryPrice !== 0) {
+            priceChangePct = ((exitPrice - entryPrice) / entryPrice) * 100;
+          }
+
           const profitLoss = ((wethOut - wethIn) / wethIn) * 100;
           transactions.push({
             date: t1.timestamp,
             token: t1.tokenOut,
             profitLoss,
+            priceChangePct,
             t1,
             t2
           });
@@ -129,19 +120,39 @@
       const ctx = document.getElementById('graph1').getContext('2d');
       const labels = transactions.map(tx => `${tx.date.slice(11, 19)} (${tx.token})`);
       const data = transactions.map(tx => tx.profitLoss);
+      const dataPriceChange = transactions.map(tx => tx.priceChangePct);
       if (graph1) graph1.destroy();
       graph1 = new Chart(ctx, {
         type: 'line',
         data: {
           labels,
-          datasets: [{
-            label: 'Profit/Loss %',
-            data,
-            borderColor: 'rgba(75,192,192,1)',
-            backgroundColor: 'rgba(75,192,192,0.2)',
-            fill: true,
-            tension: 0.2
-          }]
+          datasets: [
+            {
+              label: 'Profit/Loss %',
+              data,
+              borderColor: 'rgba(75,192,192,1)',
+              backgroundColor: 'rgba(75,192,192,0.2)',
+              fill: true,
+              tension: 0.2
+            },
+            {
+              label: 'Token Price % Change (apiPrice)',
+              data: dataPriceChange,
+              borderColor: 'rgba(255,99,132,1)',
+              backgroundColor: 'rgba(255,99,132,0.1)',
+              fill: false,
+              tension: 0.2
+            }
+          ]
+        },
+        options: {
+          scales: {
+            y: {
+              type: 'linear',
+              position: 'left',
+              title: { display: true, text: 'Profit/Loss % / Token Price % Change' }
+            }
+          }
         }
       });
     }
