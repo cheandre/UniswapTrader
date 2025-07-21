@@ -296,7 +296,7 @@ async function executeTradingStrategy2(walletAddress) {
         console.log('Entry condition met: WETH is positive in all intervals OR strong short-term momentum. Looking for a token to buy.');
 
         let bestToken = null;
-        let highestVariation = -Infinity;
+        let lowestVariation = Infinity;
 
         // 2.1.1 Find best token
         for (const token of otherTokenBalances) {
@@ -305,12 +305,13 @@ async function executeTradingStrategy2(walletAddress) {
           
           const token1hChange = tokenPriceData.priceChanges.find(c => c.timeframe === '1h');
           const token6hChange = tokenPriceData.priceChanges.find(c => c.timeframe === '6h');
-          if (token1hChange && token1hChange.isPositive && 
-              //token1hChange.percentage >= 1.5 && 
-              token1hChange.percentage < 10 && token6hChange.percentage < 20) {
+          
+          if (token1hChange && token6hChange &&
+              token1hChange.percentage < 10 && 
+              token6hChange.percentage < 20) {
             
-            if (token1hChange.percentage > highestVariation) {
-              highestVariation = token1hChange.percentage;
+            if (token6hChange.percentage < lowestVariation) {
+              lowestVariation = token6hChange.percentage;
               bestToken = token;
             }
           }
@@ -318,7 +319,7 @@ async function executeTradingStrategy2(walletAddress) {
 
         // 2.1.2 Swap if a token is found
         if (bestToken) {
-          console.log(`Found best token: ${bestToken.symbol} with 1h change of ${highestVariation}%. Swapping WETH to ${bestToken.symbol}.`);
+          console.log(`Found best token: ${bestToken.symbol} with 6h change of ${lowestVariation}%. Swapping WETH to ${bestToken.symbol}.`);
           const bestTokenPriceData = allPriceChanges.find(p => p.symbol === bestToken.symbol);
           const priceChanges = {
             wethPriceChanges: {
@@ -359,9 +360,9 @@ async function executeTradingStrategy2(walletAddress) {
         const { entryPrice, highestPrice } = getEntryAndHighestPriceFromTrades(currentTokenHolding.symbol, tokenPriceData.price);
         const priceDropFromHigh = highestPrice ? ((tokenPriceData.price - highestPrice) / highestPrice) * 100 : 0;
         const priceDropFromEntry = entryPrice ? ((tokenPriceData.price - entryPrice) / entryPrice) * 100 : 0;
-        const exitCondition1 = !weth1hChange.isPositive && weth1hChange.percentage < -0.5 && token5mChange.percentage <= -0.2;
+        //const exitCondition1 = !weth1hChange.isPositive && weth1hChange.percentage < -0.5 && token5mChange.percentage <= -2;
         const exitConditionTrailing = highestPrice && priceDropFromHigh <= -5;
-        const exitConditionEntry = entryPrice && priceDropFromEntry <= -3;
+        const exitConditionEntry = entryPrice && priceDropFromEntry <= -5;
 
         if (exitCondition1 || exitConditionTrailing || exitConditionEntry) {
           console.log(`Exit condition met. WETH 1h: ${weth1hChange.percentage}%, Token entry price: ${entryPrice}, highest price: ${highestPrice}, current price: ${tokenPriceData.price}, drop from high: ${priceDropFromHigh.toFixed(2)}%, drop from entry: ${priceDropFromEntry.toFixed(2)}%`);
