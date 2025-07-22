@@ -337,7 +337,7 @@ async function executeTradingStrategy2(walletAddress) {
           };
           const swapTx = await swapTokens('WETH', bestToken.symbol, wethBalance.rawBalance, priceChanges, bestTokenPriceData.price);
           await swapTx.wait();
-          swapped = true;
+          swapped = false; //Don't want to wait 20 minutes in entry
           console.log(`Successfully swapped WETH to ${bestToken.symbol}!`);
         } else {
           console.log('No token met the entry criteria. Holding WETH.');
@@ -360,7 +360,7 @@ async function executeTradingStrategy2(walletAddress) {
         const { entryPrice, highestPrice } = getEntryAndHighestPriceFromTrades(currentTokenHolding.symbol, tokenPriceData.price);
         const priceDropFromHigh = highestPrice ? ((tokenPriceData.price - highestPrice) / highestPrice) * 100 : 0;
         const priceDropFromEntry = entryPrice ? ((tokenPriceData.price - entryPrice) / entryPrice) * 100 : 0;
-        //const exitCondition1 = !weth1hChange.isPositive && weth1hChange.percentage < -0.5 && token5mChange.percentage <= -2;
+        const exitCondition1 = !weth1hChange.isPositive && weth1hChange.percentage < -1 && token5mChange.percentage <= -2;
         const exitConditionTrailing = highestPrice && priceDropFromHigh <= -5;
         const exitConditionEntry = entryPrice && priceDropFromEntry <= -5;
 
