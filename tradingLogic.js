@@ -305,13 +305,16 @@ async function executeTradingStrategy2(walletAddress) {
           
           const token1hChange = tokenPriceData.priceChanges.find(c => c.timeframe === '1h');
           const token6hChange = tokenPriceData.priceChanges.find(c => c.timeframe === '6h');
+          const token24hChange = tokenPriceData.priceChanges.find(c => c.timeframe === '24h');
           
-          if (token1hChange && token6hChange &&
+          if (token1hChange && token6hChange && token24hChange &&
               token1hChange.percentage < 10 && 
               token6hChange.percentage < 20) {
             
-            if (token6hChange.percentage < lowestVariation) {
-              lowestVariation = token6hChange.percentage;
+            // Consider both 6h and 24h changes for variation calculation
+            const variation = Math.min(token6hChange.percentage, token24hChange.percentage);
+            if (variation < lowestVariation) {
+              lowestVariation = variation;
               bestToken = token;
             }
           }
@@ -319,7 +322,7 @@ async function executeTradingStrategy2(walletAddress) {
 
         // 2.1.2 Swap if a token is found
         if (bestToken) {
-          console.log(`Found best token: ${bestToken.symbol} with 6h change of ${lowestVariation}%. Swapping WETH to ${bestToken.symbol}.`);
+          console.log(`Found best token: ${bestToken.symbol} with lowest variation of ${lowestVariation}% (6h/24h range). Swapping WETH to ${bestToken.symbol}.`);
           const bestTokenPriceData = allPriceChanges.find(p => p.symbol === bestToken.symbol);
           const priceChanges = {
             wethPriceChanges: {
