@@ -118,7 +118,10 @@
 
     function renderGraph1(transactions) {
       const ctx = document.getElementById('graph1').getContext('2d');
-      const labels = transactions.map(tx => `${tx.date.slice(11, 19)} (${tx.token})`);
+      const labels = transactions.map(tx => {
+        const date = new Date(tx.date);
+        return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}`;
+      });
       const data = transactions.map(tx => tx.profitLoss);
       const dataPriceChange = transactions.map(tx => tx.priceChangePct);
       if (graph1) graph1.destroy();
@@ -151,6 +154,16 @@
               type: 'linear',
               position: 'left',
               title: { display: true, text: 'Profit/Loss % / Token Price % Change' }
+            }
+          },
+          plugins: {
+            tooltip: {
+              callbacks: {
+                title: function(context) {
+                  const index = context[0].dataIndex;
+                  return `${transactions[index].date.slice(11, 19)} (${transactions[index].token})`;
+                }
+              }
             }
           }
         }
