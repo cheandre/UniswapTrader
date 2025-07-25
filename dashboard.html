@@ -214,8 +214,8 @@
 
     function updateDashboard() {
       renderGraph1(filteredTransactions);
-      renderGraph2(allTransactions);
-      renderGraph3(allTransactions);
+      renderGraph2(filteredTransactions);
+      renderGraph3(filteredTransactions);
       updateDateFilterUI(allTransactions);
     }
 
@@ -250,6 +250,8 @@
         filteredTransactions = allTransactions.filter(tx => tx.date.slice(0, 10) >= date);
       }
       renderGraph1(filteredTransactions);
+      renderGraph2(filteredTransactions);
+      renderGraph3(filteredTransactions);
     });
   </script>
 </body>
